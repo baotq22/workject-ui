@@ -1,8 +1,9 @@
 import { Dialog } from "@headlessui/react";
-import { ModalWrapper } from "../../components";
 import { QuestionMark } from '@mui/icons-material';
-import clsx from "clsx";
 import { Button } from "@mui/material";
+import clsx from "clsx";
+
+import { ModalWrapper } from "../../components";
 
 export const ConfirmationDialog = ({
   open,

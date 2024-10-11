@@ -1,7 +1,8 @@
-import { Box, Button, Typography } from '@mui/material'
-import clsx from 'clsx'
-import { Add } from '@mui/icons-material';
 import React from 'react'
+
+import { Box, Button, Typography } from '@mui/material'
+import { Add } from '@mui/icons-material';
+import clsx from 'clsx'
 
 export const TaskTitle = ({ label, className }) => {
   return (

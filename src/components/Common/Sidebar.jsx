@@ -1,10 +1,12 @@
 import React from 'react'
+
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Home, BusinessCenter, DoneOutline, Loop, Checklist, Groups2, Delete, Person, People, Settings, AssignmentTurnedIn } from '@mui/icons-material';
-import { setOpenSidebar } from '../../redux/slices/authSlice';
-import clsx from 'clsx';
 import { Box, Button, Typography } from '@mui/material';
+import clsx from 'clsx';
+
+import { setOpenSidebar } from '../../redux/slices/authSlice';
 
 const linkData = [
   {

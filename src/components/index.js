@@ -6,6 +6,7 @@ export * from "./Common/Sidebar"
 export * from "./Common/Tabs"
 export * from "./Common/Title"
 export * from "./Common/UserInfo"
+export * from "./Common/ViewNotification"
 
 export * from "./Dashboard/CardSummary"
 export * from "./Dashboard/PriorityStats"

@@ -1,13 +1,15 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { summary } from '../../assets/data';
+
 import { Box, Typography } from '@mui/material';
 import { Listbox, Transition } from '@headlessui/react';
 import { UnfoldMore, Check } from '@mui/icons-material';
 import clsx from 'clsx';
+
 import { getInitials } from '../../utils';
+import { useGetTeamListQuery } from '../../redux/slices/api/userApiSlice';
 
 export const UserList = ({ team, setTeam }) => {
-  const data = summary.users;
+  const {data} = useGetTeamListQuery();
   const [selectedUsers, setSelectedUsers] = useState([]);
 
   const handleChange = (su) => {

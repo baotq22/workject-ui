@@ -1,6 +1,7 @@
+import { Fragment, useRef } from "react";
+
 import { Dialog, Transition } from "@headlessui/react";
 import { Box } from "@mui/material";
-import { Fragment, useRef } from "react";
 
 export const ModalWrapper = ({ open, setOpen, children }) => {
   const cancelButtonRef = useRef(null);

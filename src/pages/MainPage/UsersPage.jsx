@@ -1,11 +1,14 @@
-import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import { useState } from 'react'
+
+import { toast } from 'react-toastify';
+import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import { Add } from '@mui/icons-material';
-import { BGSU, getInitials } from '../../utils';
 import clsx from 'clsx';
+
+import { BGSU, getInitials } from '../../utils';
 import { ConfirmationDialog, UserAction, AddUser, Title } from '../../components';
 import { useDeleteUserMutation, useGetTeamListQuery, useUserActionMutation } from '../../redux/slices/api/userApiSlice';
-import { toast } from 'react-toastify';
+
 import 'react-toastify/dist/ReactToastify.css';
 
 export const UsersPage = () => {
@@ -17,6 +20,9 @@ export const UsersPage = () => {
   const { data, isLoading, refetch } = useGetTeamListQuery();
   const [deleteUser] = useDeleteUserMutation();
   const [userAction] = useUserActionMutation();
+  const getCurrentUserId = JSON.parse(localStorage.getItem("userInfo"))._id;
+
+  console.log(JSON.parse(localStorage.getItem("userInfo"))._id);
 
   const deleteHandler = async () => {
     try {
@@ -25,7 +31,7 @@ export const UsersPage = () => {
       refetch();
 
       toast.success("Delete Successfully!");
-
+      setSelected(null);
       setTimeout(() => {
         setOpenDialog(false);
       }, 1500);
@@ -121,25 +127,30 @@ export const UsersPage = () => {
           </Box>
         </TableCell>
         <TableCell className="py-2">
-          <Button
+          {getCurrentUserId === user?._id ? <>
+            <Typography className='bg-green-600 py-3 px-4 text-white w-fit'>Active</Typography>
+          </> : <Button
             onClick={() => userStatusOpen(user)}
             className={clsx(
               "w-fit px-4 py-1 rounded-full",
             )}
             variant='contained'
-            color={user?.isActive ? "primary" : "error"}
+            color={user?.isActive ? "success" : "error"}
           >
             {user?.isActive ? "Active" : "Disabled"}
           </Button>
+          }
         </TableCell>
         <TableCell className='py-2 flex gap-2 md:gap-4 justify-end'>
-          <Button variant='outlined' sx={{ margin: "0 0.25rem" }} onClick={() => editClick(user)}>Edit</Button>
-          <Button
-            variant='outlined'
-            color="error"
-            sx={{ margin: "0 0.25rem" }}
-            onClick={() => deleteClick(user?._id)}
-          >Delete</Button>
+          <Button variant='contained' sx={{ margin: "0 0.25rem" }} onClick={() => editClick(user)}>Edit</Button>
+          {getCurrentUserId === user?._id ? <></> :
+            <Button
+              variant='contained'
+              color="error"
+              sx={{ margin: "0 0.25rem" }}
+              onClick={() => deleteClick(user?._id)}
+            >Delete</Button>
+          }
         </TableCell>
       </TableRow>
     )
@@ -177,6 +188,7 @@ export const UsersPage = () => {
         setOpen={setOpen}
         userData={selected}
         key={new Date().getTime().toString()}
+        refetch={refetch}
       />
       <ConfirmationDialog
         open={openDialog}

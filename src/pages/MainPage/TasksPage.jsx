@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
+
 import { GridView, FormatListBulleted, Add } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
-import { TASK_TYPE } from '../../utils';
-import { tasks } from '../../assets/data';
 import { Box, Button } from '@mui/material';
+
+import { TASK_TYPE } from '../../utils';
 import { Loading, Title, Tabs, TaskTitle, BoardView, TableView, AddTaskModal } from "../../components"
+import { useGetAllTaskQuery } from '../../redux/slices/api/taskApiSlice';
 
 const TABS = [
   { title: "Grid View", icon: <GridView /> },
@@ -18,8 +20,16 @@ export const TasksPage = () => {
 
   const [selected, setSelected] = useState(0);
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  return loading ? (
+
+  const { data, isLoading } = useGetAllTaskQuery({
+    strQuery: status,
+    isTrashed: "",
+    search: ""
+  });
+
+  console.log(data);
+
+  return isLoading ? (
     <Box className='py-10'><Loading /></Box>
   ) : (
     <Box className="w-full">
@@ -33,25 +43,28 @@ export const TasksPage = () => {
       </Box>
       <Box>
         <Tabs tabs={TABS} setSelected={setSelected}>
-          {
-            !status && (
-              <Box className="w-full flex justify-between gap-4 md:gap-x-12 py-4">
-                <TaskTitle label="To Do" className={TASK_TYPE.todo} />
-                <TaskTitle label="In Progress" className={TASK_TYPE["in progress"]} />
-                <TaskTitle label="completed" className={TASK_TYPE.completed} />
-              </Box>
-            )
-          }
+
           {selected !== 1 ? (
-            <BoardView tasks={tasks} />
+            <>
+              {
+                !status && (
+                  <Box className="w-full flex justify-between gap-4 md:gap-x-12 py-4">
+                    <TaskTitle label="To Do" className={TASK_TYPE.todo} />
+                    <TaskTitle label="In Progress" className={TASK_TYPE["in progress"]} />
+                    <TaskTitle label="completed" className={TASK_TYPE.completed} />
+                  </Box>
+                )
+              }
+              <BoardView tasks={data?.tasks} />
+            </>
           ) : (
-            <div className='w-full'>
-              <TableView tasks={tasks} />
+            <div className='w-full mt-6'>
+              <TableView tasks={data?.tasks} />
             </div>
           )}
         </Tabs>
 
-        <AddTaskModal open={open} setOpen={setOpen} />
+        <AddTaskModal open={open} setOpen={setOpen}/>
       </Box>
     </Box>
   )

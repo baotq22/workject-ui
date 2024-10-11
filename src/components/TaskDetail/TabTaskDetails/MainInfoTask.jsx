@@ -1,8 +1,10 @@
-import { Box, Divider, Typography } from '@mui/material'
 import React from 'react'
+
+import { Box, Divider, Typography } from '@mui/material'
 import { Bolt, Speed, SlowMotionVideo, Balance, TaskAlt } from '@mui/icons-material';
-import { bgColor, getInitials, PRIORITY_STYLES, TASK_TYPE } from '../../../utils'
 import clsx from 'clsx';
+
+import { bgColor, getInitials, PRIORITY_STYLES, TASK_TYPE } from '../../../utils'
 
 const ICONS = {
   high: <Bolt />,

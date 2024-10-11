@@ -1,8 +1,10 @@
 import React from 'react'
+
 import { useDispatch, useSelector } from 'react-redux';
 import { Search, Menu } from '@mui/icons-material';
-import { setOpenSidebar } from '../../redux/slices/authSlice';
 import { Box, Button, TextField } from '@mui/material';
+
+import { setOpenSidebar } from '../../redux/slices/authSlice';
 import { UserAvatar, Notification } from '../../components';
 
 export const Navbar = () => {

@@ -1,6 +1,7 @@
+import React from 'react'
+
 import { Typography } from '@mui/material'
 import clsx from 'clsx'
-import React from 'react'
 
 export const Title = ({title, className}) => {
   return (

@@ -1,7 +1,9 @@
-import { Box, Typography } from '@mui/material'
 import React, { Fragment } from 'react'
-import { getInitials } from '../../utils'
+
+import { Box, Typography } from '@mui/material'
 import { Popover, Transition } from '@headlessui/react'
+
+import { getInitials } from '../../utils'
 
 export const UserInfo = ({ user }) => {
   return (

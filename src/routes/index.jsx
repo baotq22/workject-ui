@@ -1,8 +1,10 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { DashboardPage, LoginPage, TaskDetailsPage, TasksPage, TrashPage, UsersPage } from "../pages";
 import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css';
+
 import { AppLayout } from '../layout/AppLayout';
+import { DashboardPage, LoginPage, TaskDetailsPage, TasksPage, TrashPage, UsersPage } from "../pages";
+
+import 'react-toastify/dist/ReactToastify.css';
 
 export const App = () => {
   return (

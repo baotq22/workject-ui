@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
+
 import { Bolt, Speed, SlowMotionVideo, Balance, Restore, Delete } from '@mui/icons-material';
 import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
-import { PRIORITY_STYLES, TASK_TYPE } from '../../utils';
 import clsx from 'clsx';
+
 import { tasks } from '../../assets/data';
+import { PRIORITY_STYLES, TASK_TYPE } from '../../utils';
 import { ConfirmationDialog, Title } from '../../components';
 
 const ICONS = {

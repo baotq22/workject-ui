@@ -1,17 +1,19 @@
 import React from 'react'
+
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux'
-import { } from '../Common/ModalWrapper';
 import { Dialog } from '@headlessui/react';
+import { toast } from 'react-toastify';
 import { Button, TextField } from '@mui/material';
+
 import { Loading, ModalWrapper } from "../../components"
 import { useRegisterMutation } from '../../redux/slices/api/authApiSlice';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { useUpdateUserMutation } from '../../redux/slices/api/userApiSlice';
 import { setCredentials } from '../../redux/slices/authSlice';
 
-export const AddUser = ({ open, setOpen, userData }) => {
+import 'react-toastify/dist/ReactToastify.css';
+
+export const AddUser = ({ open, setOpen, userData, refetch }) => {
   let defaultValues = userData ?? {};
   const { user } = useSelector((state) => state.auth);
 
@@ -34,9 +36,11 @@ export const AddUser = ({ open, setOpen, userData }) => {
           dispatch(setCredentials({ ...result.user }));
         }
       } else {
-        const result = await addNewUser({ ...data, password: data.email }).unwrap();
+        await addNewUser({ ...data, password: data.email }).unwrap();
         toast.success("Add new user successfully!");
       }
+
+      refetch();
 
       setTimeout(() => {
         setOpen(false)
@@ -69,6 +73,21 @@ export const AddUser = ({ open, setOpen, userData }) => {
                   message: 'Enter a valid name',
                 },
               })}
+              InputProps={{
+                sx: {
+                  color: 'white',
+                },
+              }}
+              InputLabelProps={{
+                sx: {
+                  color: 'white',
+                },
+              }}
+              sx={{
+                '.MuiFormHelperText-root': {
+                  color: 'white',
+                },
+              }}
             />
             <TextField
               label="Title"
@@ -82,6 +101,21 @@ export const AddUser = ({ open, setOpen, userData }) => {
                   message: 'Enter a valid title',
                 },
               })}
+              InputProps={{
+                sx: {
+                  color: 'white',
+                },
+              }}
+              InputLabelProps={{
+                sx: {
+                  color: 'white',
+                },
+              }}
+              sx={{
+                '.MuiFormHelperText-root': {
+                  color: 'white',
+                },
+              }}
             />
             <TextField
               label="Email Address"
@@ -95,6 +129,21 @@ export const AddUser = ({ open, setOpen, userData }) => {
                   message: 'Enter a valid email',
                 },
               })}
+              InputProps={{
+                sx: {
+                  color: 'white',
+                },
+              }}
+              InputLabelProps={{
+                sx: {
+                  color: 'white',
+                },
+              }}
+              sx={{
+                '.MuiFormHelperText-root': {
+                  color: 'white',
+                },
+              }}
             />
             <TextField
               label="Role"
@@ -108,6 +157,21 @@ export const AddUser = ({ open, setOpen, userData }) => {
                   message: 'Enter a valid role',
                 },
               })}
+              InputProps={{
+                sx: {
+                  color: 'white',
+                },
+              }}
+              InputLabelProps={{
+                sx: {
+                  color: 'white',
+                },
+              }}
+              sx={{
+                '.MuiFormHelperText-root': {
+                  color: 'white',
+                },
+              }}
             />
           </div>
 

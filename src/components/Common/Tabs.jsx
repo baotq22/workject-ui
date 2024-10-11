@@ -1,6 +1,7 @@
+import React from 'react'
+
 import { Tab } from '@headlessui/react';
 import { Box, Typography } from '@mui/material';
-import React from 'react'
 
 const classNames = (...classes) => {
   return classes.filter(Boolean).join(" ");

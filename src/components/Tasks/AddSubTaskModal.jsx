@@ -1,30 +1,36 @@
-import React from 'react'
 import { useForm } from 'react-hook-form';
-import { ModalWrapper } from '../../components';
+import { toast } from 'react-toastify'
 import { Dialog } from '@headlessui/react';
 import { Box, Button, TextField } from '@mui/material';
+
+import { ModalWrapper } from '../../components';
 import { DateBox } from './DateBox';
+import { useCreateSubTaskMutation } from '../../redux/slices/api/taskApiSlice';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 export const AddSubTaskModal = ({ open, setOpen, id }) => {
+  const todayDate = new Date().toISOString().split('T')[0];
+  
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  // const [addSbTask] = useCreateSubTaskMutation();
+  const [addSbTask] = useCreateSubTaskMutation();
 
   const handleOnSubmit = async (data) => {
-    // try {
-    //   const res = await addSbTask({ data, id }).unwrap();
-    //   toast.success(res.message);
-    //   setTimeout(() => {
-    //     setOpen(false);
-    //   }, 500);
-    // } catch (err) {
-    //   console.log(err);
-    //   toast.error(err?.data?.message || err.error);
-    // }
+    try {
+      const res = await addSbTask({ data, id }).unwrap();
+      toast.success(res.message);
+      setTimeout(() => {
+        setOpen(false);
+      }, 500);
+    } catch (err) {
+      console.log(err);
+      toast.error(err?.data?.message || err.error);
+    }
   };
 
   return (
@@ -47,10 +53,25 @@ export const AddSubTaskModal = ({ open, setOpen, id }) => {
                 {...register('title', {
                   required: 'Title is required',
                   pattern: {
-                    value: /^[a-zA-Z0-9]*$/,
+                    value: /^[a-zA-Z0-9\s]+$/,
                     message: 'Enter a valid title',
                   },
                 })}
+                InputProps={{
+                  sx: {
+                    color: 'white',
+                  },
+                }}
+                InputLabelProps={{
+                  sx: {
+                    color: 'white',
+                  },
+                }}
+                sx={{
+                  '.MuiFormHelperText-root': {
+                    color: 'white',
+                  },
+                }}
               />
             </Box>
 
@@ -68,12 +89,11 @@ export const AddSubTaskModal = ({ open, setOpen, id }) => {
               />
             </Box>
 
-            <Box className='flex items-center gap-4'>
+            <Box className='mt-2 flex flex-col gap-6'>
               <Box className="bg-white dark:bg-slate-700 flex flex-col">
-                <TextField
+                <TextField  
                   label="Tag"
                   name="tag"
-                  fullWidth
                   error={!!errors.tag}
                   helperText={errors.tag?.message}
                   {...register('tag', {
@@ -83,6 +103,21 @@ export const AddSubTaskModal = ({ open, setOpen, id }) => {
                       message: 'Enter a valid tag',
                     },
                   })}
+                  InputProps={{
+                    sx: {
+                      color: 'white',
+                    },
+                  }}
+                  InputLabelProps={{
+                    sx: {
+                      color: 'white',
+                    },
+                  }}
+                  sx={{
+                    '.MuiFormHelperText-root': {
+                      color: 'white',
+                    },
+                  }}
                 />
               </Box>
             </Box>

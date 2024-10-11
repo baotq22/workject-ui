@@ -1,9 +1,10 @@
 import { Bolt, Speed, SlowMotionVideo, Balance } from '@mui/icons-material';
-import { BGS, PRIORITY_STYLES, TASK_TYPE } from "../../utils"
 import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
-import { UserInfo } from '../../components';
 import moment from 'moment';
 import clsx from 'clsx';
+
+import { UserInfo } from '../../components';
+import { BGS, PRIORITY_STYLES, TASK_TYPE } from "../../utils"
 
 export const TaskTable = ({ tasks }) => {
   const ICONS = {

@@ -1,8 +1,8 @@
 import { Box, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material'
-import React from 'react'
-import { BGSU, getInitials } from '../../utils'
 import clsx from 'clsx'
 import moment from 'moment'
+
+import { BGSU, getInitials } from '../../utils'
 
 export const UserTable = ({ users }) => {
   const TableHeader = () => {
@@ -23,6 +23,7 @@ export const UserTable = ({ users }) => {
   };
 
   const TableRowData = ({ user }) => {
+    console.log(user);
     const randomBgColor = getRandomColor();
     return (
       <TableRow className='border-b border-gray-200 text-gray-600 hover:bg-gray-400/10'>

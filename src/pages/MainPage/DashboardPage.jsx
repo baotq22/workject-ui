@@ -1,17 +1,26 @@
-import React from 'react'
+import { Box } from '@mui/material';
 import { Assignment, AssignmentTurnedIn, Autorenew, PendingActions } from '@mui/icons-material';
-import { summary } from "../../assets/data"
-import { PriorityStats, TaskTable, CardSummary, UserTable } from '../../components';
+
+import { PriorityStats, TaskTable, CardSummary, UserTable, Loading } from '../../components';
+import { useGetDashboardStatsQuery } from '../../redux/slices/api/taskApiSlice';
 
 export const DashboardPage = () => {
+  const { data, isLoading } = useGetDashboardStatsQuery();
 
-  const totals = summary.tasks
+  if (isLoading) {
+    return (
+      <Box className="py-10">
+        <Loading />
+      </Box>
+    )
+  }
+  const totals = data?.tasks;
 
   const stats = [
     {
       _id: "1",
       label: "TOTAL TASK",
-      total: summary?.totalTasks || 0,
+      total: data?.totalTasks || 0,
       icon: <Assignment />,
       bg: "bg-[#1d4ed8]",
     },
@@ -48,16 +57,13 @@ export const DashboardPage = () => {
         }
       </div>
 
-      <div className='w-full bg-white dark:bg-slate-700 my-16 p-4 rounded shadow-sm'>
-        <h4 className='text-xl text-gray-600 dark:text-gray-100 font-semibold'>Priority Statistics</h4>
-        <PriorityStats />
-      </div>
 
+      <PriorityStats data={data?.graphData} />
       <div className='w-full flex flex-col md:flex-row gap-4 2xl:gap-10 py-8'>
         { /* left */}
-        <TaskTable tasks={summary.last10Task} />
+        <TaskTable tasks={data?.last10Task} />
         { /* right */}
-        <UserTable users={summary.users} />
+        <UserTable users={data?.users} />
       </div>
     </div>
   )

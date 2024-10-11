@@ -1,11 +1,13 @@
 import React, { Fragment, useRef } from 'react'
+
 import { useDispatch, useSelector } from 'react-redux'
-import { setOpenSidebar } from '../../redux/slices/authSlice';
 import { Transition } from '@headlessui/react';
+import { Box, Button } from '@mui/material';
 import { Close } from '@mui/icons-material';
 import clsx from 'clsx';
+
+import { setOpenSidebar } from '../../redux/slices/authSlice';
 import { Sidebar } from '../../components';
-import { Box, Button } from '@mui/material';
 
 export const MobileSideBar = () => {
   const { isSidebarOpen } = useSelector((state) => state.auth);

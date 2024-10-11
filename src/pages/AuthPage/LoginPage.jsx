@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
+
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Typography, CircularProgress, Box } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLoginMutation } from '../../redux/slices/api/authApiSlice';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
+import { useLoginMutation } from '../../redux/slices/api/authApiSlice';
 import { setCredentials } from '../../redux/slices/authSlice';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 export const LoginPage = () => {
   const {user} = useSelector((state) => state.auth);

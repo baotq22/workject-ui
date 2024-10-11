@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
+
 import { Bolt, Speed, SlowMotionVideo, Balance, Message, InsertDriveFile, FormatListBulleted } from '@mui/icons-material';
 import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import clsx from 'clsx';
+
 import { BGS, formatDate, PRIORITY_STYLES, TASK_TYPE } from '../../utils';
 import { UserInfo, ConfirmationDialog } from '../../components';
 

@@ -1,5 +1,7 @@
-import { Box } from '@mui/material'
 import React from 'react'
+
+import { Box } from '@mui/material'
+
 import { MainInfoTask, AssetsTask } from '../../components'
 
 export const TaskDetailTab = ({ task }) => {

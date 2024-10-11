@@ -1,10 +1,12 @@
 import React from "react";
+
 import { useSelector } from "react-redux";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { Sidebar, Navbar, MobileSideBar } from "../components";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Box } from "@mui/material";
+
+import { Sidebar, Navbar, MobileSideBar } from "../components";
 
 const theme = createTheme({
   typography: {
