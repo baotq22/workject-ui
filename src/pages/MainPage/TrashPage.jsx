@@ -2,11 +2,14 @@ import React, { useState } from 'react'
 
 import { Bolt, Speed, SlowMotionVideo, Balance, Restore, Delete } from '@mui/icons-material';
 import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import { toast } from 'react-toastify';
 import clsx from 'clsx';
 
-import { tasks } from '../../assets/data';
 import { PRIORITY_STYLES, TASK_TYPE } from '../../utils';
-import { ConfirmationDialog, Title } from '../../components';
+import { ConfirmationDialog, Loading, Title } from '../../components';
+import { useDeleteRestoreTaskMutation, useGetAllTaskQuery } from '../../redux/slices/api/taskApiSlice';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const ICONS = {
   high: <Bolt />,
@@ -22,6 +25,55 @@ export const TrashPage = () => {
   const [msg, setMsg] = useState(null);
   const [type, setType] = useState("delete");
   const [selected, setSelected] = useState("");
+
+  const { data, isLoading } = useGetAllTaskQuery({
+    strQuery: "",
+    isTrashed: "true",
+    search: ""
+  });
+
+  const [deleteRestore] = useDeleteRestoreTaskMutation();
+
+  const deleteRestoreHandler = async () => {
+    try {
+      let result;
+
+      switch (type) {
+        case "delete":
+          result = await deleteRestore({
+            id: selected,
+            actionType: "delete"
+          }).unwrap();
+          break;
+        case "deleteAll":
+          result = await deleteRestore({
+            id: selected,
+            actionType: "deleteAll"
+          }).unwrap();
+          break;
+        case "restore":
+          result = await deleteRestore({
+            id: selected,
+            actionType: "restore"
+          }).unwrap();
+          break;
+        case "restoreAll":
+          result = await deleteRestore({
+            id: selected,
+            actionType: "restoreAll"
+          }).unwrap();
+          break;
+      }
+
+      toast.success(result?.message);
+
+      setTimeout(() => {
+        setOpenDialog(false);
+      }, 500);
+    } catch (error) {
+      toast.error(error?.data?.message)
+    }
+  }
 
   const deleteAllClick = () => {
     setType("deleteAll");
@@ -47,6 +99,14 @@ export const TrashPage = () => {
     setMsg("Do you want to restore the selected item?");
     setOpenDialog(true);
   };
+
+  if (isLoading) {
+    return (
+      <Box className="py-10">
+        <Loading />
+      </Box>
+    )
+  }
 
   const TableHeader = () => {
     return (
@@ -87,14 +147,14 @@ export const TrashPage = () => {
         </TableCell>
         <TableCell className="py-2 flex gap-2 justify-end">
           <Button
-            variant='outlined'
+            variant='contained'
             startIcon={<Restore />}
             color='success'
             sx={{ margin: "0 0.25rem" }}
             onClick={() => restoreClick(item._id)}
           />
           <Button
-            variant='outlined'
+            variant='contained'
             startIcon={<Delete />}
             color='error'
             sx={{ margin: "0 0.25rem" }}
@@ -125,12 +185,12 @@ export const TrashPage = () => {
             >Delete All</Button>
           </Box>
         </Box>
-        <Box className="bg-white dark:bg-slate-500 px-2 md:px-4 py-4">
+        <Box className="bg-white px-2 md:px-4 py-4">
           <Box className="overflow-x-auto">
             <Table className='w-full mb-5'>
               <TableHeader />
               <TableBody>
-                {tasks?.map((task, index) => (
+                {data?.tasks.map((task, index) => (
                   <TableRowData key={index} item={task} />
                 ))}
               </TableBody>
@@ -145,7 +205,7 @@ export const TrashPage = () => {
         setMsg={setMsg}
         type={type}
         setType={setType}
-        // onClick={() => deleteRestoreHandler()}
+        onClick={() => deleteRestoreHandler()}
       />
     </>
   )

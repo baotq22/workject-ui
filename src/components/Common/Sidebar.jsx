@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Home, BusinessCenter, DoneOutline, Loop, Checklist, Groups2, Delete, Person, People, Settings, AssignmentTurnedIn } from '@mui/icons-material';
+import { Home, BusinessCenter, DoneOutline, Loop, Checklist, Delete, Person, People, Settings, AssignmentTurnedIn } from '@mui/icons-material';
 import { Box, Button, Typography } from '@mui/material';
 import clsx from 'clsx';
 
@@ -35,11 +35,6 @@ const linkData = [
     link: "todo/todo",
   },
   {
-    name: "Team",
-    icon: <Groups2 />,
-    link: "team",
-  },
-  {
     name: "Profile",
     icon: <Person />,
     link: "profile"
@@ -61,11 +56,10 @@ export const Sidebar = () => {
 
   const dispatch = useDispatch();
   const location = useLocation();
-  const navigate = useNavigate();
 
   const path = location.pathname.split("/")[1];
 
-  const sidebarLinks = user?.isAdmin ? linkData : linkData.slice(0, 5);
+  const sidebarLinks = user?.isAdmin ? linkData : linkData.slice(0, 6);
 
   const closeSidebar = () => {
     dispatch(setOpenSidebar(false));
@@ -74,8 +68,8 @@ export const Sidebar = () => {
   const NavLinks = ({ value }) => {
     return (
       <Link to={value.link} onClick={closeSidebar}
-        className={clsx("w-full flex gap-2 px-3 py-2 rounded-full items-center text-gray-800 text-base hover:bg-[#2564ed2d] dark:text-white", path === value.link.split("/")[0] ?
-          "bg-gradient-to-r from-slate-500 to-slate-800 text-white dark:from-slate-800 dark:to-slate-500 dark:text-black" :
+        className={clsx("w-full flex gap-2 px-3 py-2 rounded-full items-center text-gray-800 text-base hover:bg-[#2564ed2d]", path === value.link.split("/")[0] ?
+          "bg-gradient-to-r from-blue-400 to-blue-800 text-white" :
           "text-black")}
       >
         {value.icon}
@@ -84,7 +78,7 @@ export const Sidebar = () => {
     )
   }
   return (
-    <Box className='w-full h-full flex flex-col gap-6 p-5 dark:bg-slate-700'>
+    <Box className='w-full h-full flex flex-col gap-6 p-5 bg-gray-200'>
       <Typography variant="h1" className='flex gap-1 items-center'>
         <Typography className='bg-gradient-to-r from-fuchsia-500 to-cyan-500 p-2 rounded-full'>
           <AssignmentTurnedIn sx={{ color: "white" }} />
@@ -98,12 +92,6 @@ export const Sidebar = () => {
             <NavLinks value={links} key={links.name} />
           ))
         }
-      </Box>
-      <Box>
-        <Button className='w-full flex gap-2 p-2 items-center text-lg'>
-          <Settings />
-          <Typography>Settings</Typography>
-        </Button>
       </Box>
     </Box>
   )

@@ -1,12 +1,12 @@
 import { useState } from 'react'
 
 import { toast } from 'react-toastify';
-import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
-import { Add } from '@mui/icons-material';
+import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography, TextField } from '@mui/material';
+import { Add, Search } from '@mui/icons-material';
 import clsx from 'clsx';
 
 import { BGSU, getInitials } from '../../utils';
-import { ConfirmationDialog, UserAction, AddUser, Title } from '../../components';
+import { ConfirmationDialog, UserAction, AddUser, Title, Loading } from '../../components';
 import { useDeleteUserMutation, useGetTeamListQuery, useUserActionMutation } from '../../redux/slices/api/userApiSlice';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,13 +16,26 @@ export const UsersPage = () => {
   const [open, setOpen] = useState(false);
   const [openAction, setOpenAction] = useState(false);
   const [selected, setSelected] = useState(null);
+  const [searchValue, setSearchValue] = useState('');
 
-  const { data, isLoading, refetch } = useGetTeamListQuery();
+  const { data, isLoading, refetch } = useGetTeamListQuery(searchValue);
   const [deleteUser] = useDeleteUserMutation();
   const [userAction] = useUserActionMutation();
   const getCurrentUserId = JSON.parse(localStorage.getItem("userInfo"))._id;
 
-  console.log(JSON.parse(localStorage.getItem("userInfo"))._id);
+  if (isLoading) {
+    return (
+      <Box className="py-10">
+        <Loading />
+      </Box>
+    )
+  }
+
+  const handleSearch = (event) => {
+    setSearchValue(event.target.value)
+  };
+
+  const filteredUsers = data?.filter(user => user.name.toLowerCase().includes(searchValue.toLowerCase()));
 
   const deleteHandler = async () => {
     try {
@@ -161,6 +174,18 @@ export const UsersPage = () => {
       <Box className="w-full md:px-1 px-0 mb-6">
         <Box className="flex items-center justify-between mb-8">
           <Title title="All Users" />
+          <Box className="w-64 flex items-center py-2 px-3 gap-2 rounded-full bg-[#f3f4f6]">
+            <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+              <Search sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+              <TextField
+                id="input-with-sx"
+                label="Search"
+                variant="standard"
+                value={searchValue}
+                onChange={handleSearch}
+              />
+            </Box>
+          </Box>
           <Button
             variant='contained'
             startIcon={<Add />}
@@ -170,12 +195,12 @@ export const UsersPage = () => {
             }}
           >Add New User</Button>
         </Box>
-        <Box className="bg-white dark:bg-slate-500 px-2 md:px-4 py-4">
+        <Box className="bg-white px-2 md:px-4 py-4">
           <Box className="overflow-x-auto">
             <Table className='w-full mb-5'>
               <TableHeader />
               <TableBody>
-                {data?.map((user, index) => (
+                {filteredUsers?.map((user, index) => (
                   <TableRowData key={index} user={user} />
                 ))}
               </TableBody>

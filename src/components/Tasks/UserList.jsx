@@ -9,7 +9,7 @@ import { getInitials } from '../../utils';
 import { useGetTeamListQuery } from '../../redux/slices/api/userApiSlice';
 
 export const UserList = ({ team, setTeam }) => {
-  const {data} = useGetTeamListQuery();
+  const { data, isLoading } = useGetTeamListQuery();
   const [selectedUsers, setSelectedUsers] = useState([]);
 
   const handleChange = (su) => {
@@ -22,20 +22,21 @@ export const UserList = ({ team, setTeam }) => {
       data && setSelectedUsers([data[0]]);
     } else {
       setSelectedUsers(team);
+      console.log(selectedUsers);
     }
-  }, [])
+  }, [isLoading])
 
   return (
     <Box>
-      <Typography className='text-gray-700 dark:text-white'>Assign Task To: </Typography>
+      <Typography className='text-gray-700'>Assign Task To: </Typography>
       <Listbox
         value={selectedUsers}
         onChange={(el) => handleChange(el)}
         multiple
       >
         <Box className='relative mt-1'>
-          <Listbox.Button className='relative w-full cursor-default rounded bg-white dark:bg-slate-700 dark:border-slate-800 pl-3 pr-10 text-left px-3 py-2.5 2xl:py-3 border border-gray-300 sm:text-sm'>
-            <span className='block truncate dark:text-white'>
+          <Listbox.Button className='relative w-full cursor-default rounded bg-white pl-3 pr-10 text-left px-3 py-2.5 2xl:py-3 border border-gray-300 sm:text-sm'>
+            <span className='block truncate'>
               {selectedUsers?.map((user) => user.name).join(", ")}
             </span>
 
@@ -52,12 +53,12 @@ export const UserList = ({ team, setTeam }) => {
             leaveFrom='opacity-100'
             leaveTo='opacity-0'
           >
-            <Listbox.Options className='z-50 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white dark:bg-slate-700 dark:border-slate-800 py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm'>
+            <Listbox.Options className='z-50 absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm'>
               {data?.map((user, index) => (
                 <Listbox.Option
                   key={index}
                   className={({ active }) =>
-                    `relative cursor-default select-none py-2 pl-10 pr-4. ${active ? "bg-cyan-100 text-cyan-900" : "text-gray-900 dark:text-white"
+                    `relative cursor-default select-none py-2 pl-10 pr-4. ${active ? "bg-cyan-100 text-cyan-900" : "text-gray-900"
                     } `
                   }
                   value={user}
@@ -72,9 +73,11 @@ export const UserList = ({ team, setTeam }) => {
                         </Box>
                         <span>{user.name}</span>
                       </Box>
-                      {selected ? (<span className='absolute inset-y-0 left-0 flex items-center pl-3 text-cyan-600'>
-                        <Check className='w-5 h-5' />
-                      </span>) : null}
+                      {selected ? (
+                        <span className='absolute inset-y-0 left-0 flex items-center pl-3 text-cyan-600'>
+                          <Check className='w-5 h-5' />
+                        </span>
+                      ) : null}
                     </>
                   )}
                 </Listbox.Option>

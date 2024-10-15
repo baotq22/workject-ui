@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { toast } from 'react-toastify'
 import { Dialog } from '@headlessui/react'
@@ -21,32 +21,63 @@ export const AddTaskModal = ({ open, setOpen, task }) => {
 
   const defaultValues = {
     title: task?.title || "",
+    description: task?.description || "",
     date: task ? new Date(task?.date).toISOString().split('T')[0] : todayDate,
     team: [],
     stage: "",
     priority: "",
     assets: [],
   };
-  const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues });
-  const [team, setTeam] = useState(task?.team || "");
+  const { register, handleSubmit, formState: { errors }, reset } = useForm({ defaultValues });
+  const [team, setTeam] = useState(task?.team || []);
   const [stage, setStage] = useState(task?.stage?.toUpperCase() || LISTS[0]);
-  const [priority, setPriority] = useState(
-    task?.priority?.toUpperCase() || PRIORIRY[2]
-  );
+  const [priority, setPriority] = useState(task?.priority?.toUpperCase() || PRIORIRY[2]);
   const [assets, setAssets] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
   const [uploading, setUploading] = useState(false);
 
   const [createTask, { isLoading }] = useCreateTaskMutation();
   const [updateTask, { isLoading: isUpdating }] = useUpdateTaskMutation();
-  const URLs = task?.assets ? [...task.assets] : [];
+  const URLs = task?.assets ? [...task?.assets] : [];
+
+  useEffect(() => {
+    if (task?.assets) {
+      setPreviewImages(task?.assets);
+    }
+  }, [task]);
+
+  const resetFormState = () => {
+    reset(defaultValues);
+
+    setTeam([]);
+    setStage(LISTS[0]);
+    setPriority(PRIORIRY[2]);
+    setAssets([]);
+    setPreviewImages([]);
+  };
 
   const handleSelect = (e) => {
     const selectedFiles = Array.from(e.target.files);
-    setAssets(selectedFiles);
+    const validFormats = ["image/jpg", "image/jpeg", "image/png", "image/webp"];
+    const maxSize = 5 * 1024 * 1024;
 
-    const imagePreviews = selectedFiles.map((file) => URL.createObjectURL(file));
-    setPreviewImages(imagePreviews);
+    const filteredFiles = selectedFiles.filter((file) => {
+      if (!validFormats.includes(file.type)) {
+        toast.error(`Allowed formats are jpg, jpeg, png, webp.`);
+        return false;
+      }
+      if (file.size > maxSize) {
+        toast.error(`Allowed file with the maximum size of 5 MB.`);
+        return false;
+      }
+      return true;
+    });
+
+    if (filteredFiles.length > 0) {
+      setAssets(filteredFiles);
+      const imagePreviews = filteredFiles.map((file) => URL.createObjectURL(file));
+      setPreviewImages(imagePreviews);
+    }
   };
 
   const uploadFile = async (file) => {
@@ -60,7 +91,7 @@ export const AddTaskModal = ({ open, setOpen, task }) => {
       uploadTask.on(
         "state_changed",
         (snapshot) => {
-          console.log("uploading");
+          toast.warning("Uploading, Please Wait");
         },
         (error) => {
           reject(error);
@@ -107,12 +138,13 @@ export const AddTaskModal = ({ open, setOpen, task }) => {
 
       toast.success(res.message);
 
+      resetFormState();
+
       setTimeout(() => {
         setOpen(false);
       }, 500);
     } catch (error) {
       toast.error("Failed", error);
-      console.log(error);
     }
   }
 
@@ -121,12 +153,12 @@ export const AddTaskModal = ({ open, setOpen, task }) => {
       <form onSubmit={handleSubmit(submitHandler)}>
         <Dialog.Title
           as='h2'
-          className='text-base font-bold leading-6 text-gray-900 dark:text-white mb-4'
+          className='text-base font-bold leading-6 text-gray-900 mb-4'
         >
           {task ? "UPDATE" : "ADD"} TASK
         </Dialog.Title>
         <Box className="mt-2 flex flex-col gap-6">
-          <Box className="bg-white dark:bg-slate-700 flex flex-col">
+          <Box className="bg-white flex flex-col">
             <TextField
               label="Task Title"
               name="title"
@@ -139,27 +171,26 @@ export const AddTaskModal = ({ open, setOpen, task }) => {
                   message: 'Enter a valid title',
                 },
               })}
-              InputProps={{
-                sx: {
-                  color: 'white',
-                },
-              }}
-              InputLabelProps={{
-                sx: {
-                  color: 'white',
-                },
-              }}
-              sx={{
-                '.MuiFormHelperText-root': {
-                  color: 'white',
-                },
-              }}
             />
           </Box>
           <UserList
             setTeam={setTeam}
             team={team}
           />
+
+          <Box className="bg-white flex flex-col">
+            <TextField
+              label="Description"
+              name="description"
+              rows={10}
+              multiline
+              error={!!errors.description}
+              helperText={errors.description?.message}
+              {...register('description', {
+                required: 'Description is required'
+              })}
+            />
+          </Box>
 
           <Box className="flex gap-4">
             <SelectList
@@ -193,29 +224,14 @@ export const AddTaskModal = ({ open, setOpen, task }) => {
                   min: todayDate,
                 }}
                 defaultValue={defaultValues.date}
-                InputProps={{
-                  sx: {
-                    color: 'white',
-                  },
-                }}
-                InputLabelProps={{
-                  sx: {
-                    color: 'white',
-                  },
-                }}
-                sx={{
-                  '.MuiFormHelperText-root': {
-                    color: 'white',
-                  },
-                }}
               />
             </Box>
           </Box>
 
           <Box className='flex gap-4'>
-            <Box className='w-72 flex items-center justify-center mt-4'>
+            <Box className='w-full flex items-center justify-center mt-4'>
               <label
-                className='flex items-center gap-1 text-base text-ascent-2 hover:text-ascent-1 cursor-pointer my-4 dark:text-white'
+                className='flex items-center gap-1 text-base text-ascent-2 hover:text-ascent-1 cursor-pointer my-4'
                 htmlFor='imgUpload'
               >
                 <input
@@ -230,6 +246,8 @@ export const AddTaskModal = ({ open, setOpen, task }) => {
                 <span>Add Assets</span>
               </label>
             </Box>
+          </Box>
+          <Box className='flex gap-4'>
             <Box className='flex flex-wrap gap-4 mt-4'>
               {previewImages.length > 0 &&
                 previewImages.map((src, index) => (
@@ -242,17 +260,17 @@ export const AddTaskModal = ({ open, setOpen, task }) => {
                 ))}
             </Box>
           </Box>
-          <Box className="bg-gray-50 dark:bg-slate-700 dark:border-slate-800 py-6 sm:flex sm:flex-row-reverse gap-4">
+          <Box className="bg-gray-50 py-6 sm:flex sm:flex-row-reverse gap-4">
             <Button
               type="submit"
               variant="contained"
               color="primary"
               fullWidth
-              disabled={uploading}
-              startIcon={uploading && <CircularProgress size={20} />}
+              disabled={uploading || isLoading || isUpdating}
+              startIcon={(uploading || isLoading || isUpdating) ? <CircularProgress size={20} /> : ""}
               style={{ marginTop: '1rem' }}
             >
-              {uploading ? 'Uploading assets...' : 'Submit'}
+              {(uploading || isLoading || isUpdating) ? 'Uploading assets...' : 'Submit'}
             </Button>
             <Button variant="outlined" color="error" fullWidth style={{ marginTop: '1rem' }} onClick={() => setOpen(false)}>Close</Button>
           </Box>

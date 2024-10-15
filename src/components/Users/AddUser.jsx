@@ -56,7 +56,7 @@ export const AddUser = ({ open, setOpen, userData, refetch }) => {
         <form onSubmit={handleSubmit(handleOnSubmit)} className=''>
           <Dialog.Title
             as='h2'
-            className='text-base font-bold leading-6 text-gray-900 dark:text-white mb-4'
+            className='text-base font-bold leading-6 text-gray-900 mb-4'
           >
             {userData ? "UPDATE PROFILE" : "ADD NEW USER"}
           </Dialog.Title>
@@ -73,21 +73,6 @@ export const AddUser = ({ open, setOpen, userData, refetch }) => {
                   message: 'Enter a valid name',
                 },
               })}
-              InputProps={{
-                sx: {
-                  color: 'white',
-                },
-              }}
-              InputLabelProps={{
-                sx: {
-                  color: 'white',
-                },
-              }}
-              sx={{
-                '.MuiFormHelperText-root': {
-                  color: 'white',
-                },
-              }}
             />
             <TextField
               label="Title"
@@ -101,25 +86,11 @@ export const AddUser = ({ open, setOpen, userData, refetch }) => {
                   message: 'Enter a valid title',
                 },
               })}
-              InputProps={{
-                sx: {
-                  color: 'white',
-                },
-              }}
-              InputLabelProps={{
-                sx: {
-                  color: 'white',
-                },
-              }}
-              sx={{
-                '.MuiFormHelperText-root': {
-                  color: 'white',
-                },
-              }}
             />
             <TextField
               label="Email Address"
               name="email"
+              disabled={userData}
               error={!!errors.email}
               helperText={errors.email?.message}
               {...register('email', {
@@ -129,21 +100,6 @@ export const AddUser = ({ open, setOpen, userData, refetch }) => {
                   message: 'Enter a valid email',
                 },
               })}
-              InputProps={{
-                sx: {
-                  color: 'white',
-                },
-              }}
-              InputLabelProps={{
-                sx: {
-                  color: 'white',
-                },
-              }}
-              sx={{
-                '.MuiFormHelperText-root': {
-                  color: 'white',
-                },
-              }}
             />
             <TextField
               label="Role"
@@ -157,21 +113,6 @@ export const AddUser = ({ open, setOpen, userData, refetch }) => {
                   message: 'Enter a valid role',
                 },
               })}
-              InputProps={{
-                sx: {
-                  color: 'white',
-                },
-              }}
-              InputLabelProps={{
-                sx: {
-                  color: 'white',
-                },
-              }}
-              sx={{
-                '.MuiFormHelperText-root': {
-                  color: 'white',
-                },
-              }}
             />
           </div>
 
@@ -188,7 +129,7 @@ export const AddUser = ({ open, setOpen, userData, refetch }) => {
                 fullWidth
                 style={{ margin: '1rem', padding: '0.75rem' }}
               >
-                
+
                 {userData ? "Update User" : "Add User"}
               </Button>
 

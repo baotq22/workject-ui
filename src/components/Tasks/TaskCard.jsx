@@ -20,34 +20,37 @@ export const TaskCard = ({ task }) => {
 
   return (
     <>
-      <Box className="w-full h-fit bg-white dark:bg-slate-700 shadow-md p-4 rounded">
+      <Box className="w-full h-fit bg-white shadow-md p-4 rounded" sx={{ minHeight: "28rem" }}>
         <Box className="w-full flex justify-between">
           <Box className={clsx("flex flex-1 gap-1 items-center text-sm font-medium", PRIORITY_STYLES[task?.priority])}>
             <Typography className='text-lg'>{ICONS[task?.priority]}</Typography>
             <Typography className='uppercase'>Priority level: {task?.priority}</Typography>
           </Box>
-          {user?.isAdmin && <TaskDialog task={task} />}
+          <Box className={clsx("w-28 h-8 text-white text-center justify-center rounded-full mt-1", TASK_TYPE[task.stage])}>
+            {task?.stage}
+          </Box>
+          <TaskDialog task={task} />
         </Box>
         <Box className="flex items-center gap-2">
           <Box className={clsx("w-4 h-4 rounded-full", TASK_TYPE[task.stage])}>
           </Box>
-          <Typography variant='h6' className='line-clamp-1 dark:text-white'>{task?.title}</Typography>
+          <Typography variant='h6' className='line-clamp-1'>{task?.title}</Typography>
         </Box>
-        <Typography className='text-sm text-gray-600 dark:text-gray-100'>{formatDate(new Date(task?.date))}</Typography>
+        <Typography className='text-sm text-gray-600'>{formatDate(new Date(task?.date))}</Typography>
         <Divider sx={{ margin: "1rem 0" }} />
         <Box className="flex items-center justify-between mb-2">
           <Box className="flex items-center gap-3">
-            <Box className="flex gap-1 items-center text-sm text-gray-600 dark:text-gray-100">
+            <Box className="flex gap-1 items-center text-sm text-gray-600">
               <Message />
               <Typography>{task?.activities?.length}</Typography>
             </Box>
-            <Box className="flex gap-1 items-center text-sm text-gray-600 dark:text-gray-100">
+            <Box className="flex gap-1 items-center text-sm text-gray-600">
               <InsertDriveFile />
               <Typography>{task?.assets?.length}</Typography>
             </Box>
-            <Box className="flex gap-1 items-center text-sm text-gray-600 dark:text-gray-100">
+            <Box className="flex gap-1 items-center text-sm text-gray-600">
               <FormatListBulleted />
-              <Typography>0/{task?.subTasks?.length}</Typography>
+              <Typography>{task?.subTasks?.length}</Typography>
             </Box>
           </Box>
           <Box className="flex flex-row-reverse">
@@ -61,19 +64,19 @@ export const TaskCard = ({ task }) => {
 
         {/* subtasks */}
         {task?.subTasks.length > 0 ?
-          <Box className="py-4 border-t border-gray-200">
-            <Typography variant='h6' className='text-base line-clamp-1 dark:text-white'>
+          <Box className="py-4 border-t border-gray-200" sx={{ minHeight: "11.25rem" }}>
+            <Typography variant='h6' className='text-base line-clamp-1'>
               {task?.subTasks[0].title}
             </Typography>
             <Box className="py-4 space-x-8">
-              <span className='text-sm text-gray-600 dark:text-gray-100'>Date: {formatDate(new Date(task?.subTasks[0]?.date))}</span>
+              <span className='text-sm text-gray-600'>Date: {formatDate(new Date(task?.subTasks[0]?.date))}</span>
             </Box>
             <Box className="py-4 space-x-8">
-              <span className='bg-blue-600/10 px-3 py-1 rounded-full text-blue-700 dark:text-blue-200 font-medium'>
+              <span className='bg-blue-600/10 px-3 py-1 rounded-full text-blue-700 font-medium'>
                 {task?.subTasks[0].tag}
               </span>
             </Box>
-          </Box> : <Box className='py-4 border-t border-gray-200'>
+          </Box> : <Box className='py-4 border-t border-gray-200' sx={{ minHeight: "11.25rem" }}>
             <Typography variant='h6' className='text-red-500'>No Sub-Task Available</Typography>
           </Box>}
 

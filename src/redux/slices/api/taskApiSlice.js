@@ -54,7 +54,7 @@ export const taskApiSlice = apiReducer.injectEndpoints({
     trashTask: builder.mutation({
       query: ({id}) => ({
         url: `${TASK_URL}/${id}`,
-        method: "DELETE",
+        method: "PUT",
         credentials: "include",
       }),
       invalidatesTags: ['Task'],
@@ -69,6 +69,34 @@ export const taskApiSlice = apiReducer.injectEndpoints({
       }),
       invalidatesTags: ['Task'],
     }),
+
+    getSingleTask: builder.query({
+      query: (id) => ({
+        url: `${TASK_URL}/${id}`,
+        method: "GET",
+        credentials: "include",
+      }),
+      providesTags: ['Task'],
+    }),
+    
+    postTasksActivity: builder.mutation({
+      query: ({data, id}) => ({
+        url: `${TASK_URL}/activity/${id}`,
+        method: "POST",
+        body: data,
+        credentials: "include",
+      }),
+      invalidatesTags: ['Task'],
+    }),
+
+    deleteRestoreTask: builder.mutation({
+      query: ({id, actionType}) => ({
+        url: `${TASK_URL}/delete-restore/${id}?actionType=${actionType}`,
+        method: "DELETE",
+        credentials: "include"
+      }),
+      invalidatesTags: ['Task'],
+    })
   }),
   tagTypes: ['Task'],
 });
@@ -80,5 +108,8 @@ export const {
   useDuplicateTaskMutation,
   useUpdateTaskMutation,
   useTrashTaskMutation,
-  useCreateSubTaskMutation
+  useCreateSubTaskMutation,
+  useGetSingleTaskQuery,
+  usePostTasksActivityMutation,
+  useDeleteRestoreTaskMutation
 } = taskApiSlice;

@@ -1,12 +1,15 @@
 import { useState } from 'react'
 
 import { Bolt, Speed, SlowMotionVideo, Balance, Task, ViewList, Message, ThumbUp, Person, BugReport, DoneAll, Pending } from '@mui/icons-material';
-import { Box, Button, Checkbox, TextField, Typography } from '@mui/material';
+import { Box, Button, Checkbox, Radio, TextField, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom'
+import { toast } from 'react-toastify';
 import moment from 'moment'
 
-import { tasks } from '../../assets/data';
-import { Tabs, TaskDetailTab,Loading } from '../../components';
+import { Tabs, TaskDetailTab, Loading } from '../../components';
+import { useGetSingleTaskQuery, usePostTasksActivityMutation } from '../../redux/slices/api/taskApiSlice';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const assets = [
   "https://images.pexels.com/photos/2418664/pexels-photo-2418664.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
@@ -72,9 +75,25 @@ const act_types = [
 const ActivitiesTab = ({ activity, id }) => {
   const [selected, setSelected] = useState(act_types[0]);
   const [text, setText] = useState("");
-  const isLoading = false;
 
-  const handleSubmit = () => { };
+  const [postActivity, { isLoading }] = usePostTasksActivityMutation();
+  const handleSubmit = async () => {
+    try {
+      const activityData = {
+        type: selected?.toLowerCase(),
+        activity: text,
+      }
+      const result = await postActivity({
+        data: activityData,
+        id
+      }).unwrap();
+
+      setText("");
+      toast.success(result?.message)
+    } catch (error) {
+      toast.error(error?.data?.message)
+    }
+  };
 
   const Card = ({ item }) => {
     return (
@@ -88,19 +107,22 @@ const ActivitiesTab = ({ activity, id }) => {
           </Box>
         </Box>
         <Box className="flex flex-col gap-y-1 mb-8">
-          <Typography className='font-semibold'>{item?.by?.name}</Typography>
-          <Box className="text-gray-500 space-y-2">
+          <Typography className='font-semibold '>{item?.by?.name}</Typography>
+          <Box className="text-gray-600 space-y-2">
             <span className='capitalize'>{item?.type}</span>
-            <span className='text-sm'>{moment(item?.date).fromNow()}</span>
+            <span> about </span>
+            <span className='text-base'>{moment(item?.date).fromNow()}</span>
           </Box>
-          <Box className="text-gray-700">{item?.activity}</Box>
+          <Box className="text-gray-600">
+            <span style={{ whiteSpace: 'pre-wrap' }}>{item?.activity}</span>
+          </Box>
         </Box>
       </Box>
     )
   }
 
   return (
-    <Box className="w-full flex gap-10 2xl:gap-20 min-h-screen px-10 py-8 bg-white shadow rounded-md justify-between overflow-y-auto">
+    <Box className="w-full flex gap-10 2xl:gap-20 min-h-screen px-10 py-8 bg-white shadow rounded-md justify-between overflow-y-auto mt-6">
       <Box className="w-full md:w-1/2">
         <Typography variant='h6' className='text-gray-600 font-semibold te-lg' sx={{ marginBottom: "1.25rem" }}>
           Activities
@@ -118,8 +140,8 @@ const ActivitiesTab = ({ activity, id }) => {
         <Box className='w-full flex flex-wrap gap-5'>
           {act_types.map((item, index) => (
             <Box key={item} className='flex gap-2 items-center'>
-              <Checkbox checked={selected === item ? true : false} onChange={(e) => setSelected(item)} />
-              <Typography>{item}</Typography>
+              <Radio checked={selected === item ? true : false} onChange={(e) => setSelected(item)} />
+              <Typography className=''>{item}</Typography>
             </Box>
           ))}
           <TextField
@@ -127,7 +149,7 @@ const ActivitiesTab = ({ activity, id }) => {
             multiline
             value={text}
             onChange={(e) => setText(e.target.value)}
-            label='Type ......'
+            label='Comment for activity'
             className='bg-white w-full mt-10 border border-gray-300 outline-none p-4 rounded-md focus:ring-2 ring-blue-500'
           ></TextField>
           {isLoading ? (
@@ -147,12 +169,21 @@ const ActivitiesTab = ({ activity, id }) => {
 
 export const TaskDetailsPage = () => {
   const { id } = useParams();
-
+  const { data, isLoading } = useGetSingleTaskQuery(id);
   const [selected, setSelected] = useState(0);
-  const task = tasks[3];
+  const task = data?.task;
+
+  if (isLoading) {
+    return (
+      <Box className="py-10">
+        <Loading />
+      </Box>
+    )
+  }
+
   return (
     <Box className="w-full flex flex-col gap-3 mb-4 overflow-y-hidden">
-      <Typography variant='h5'>{task?.title}</Typography>
+      <Typography variant='h4' className=''>{task?.title}</Typography>
       <Tabs tabs={TABS} setSelected={setSelected}>
         {
           selected === 0 ? <>

@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 
 import { GridView, FormatListBulleted, Add } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
-import { Box, Button } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
+import { Search } from '@mui/icons-material';
 
 import { TASK_TYPE } from '../../utils';
-import { Loading, Title, Tabs, TaskTitle, BoardView, TableView, AddTaskModal } from "../../components"
+import { Loading, Title, Tabs, BoardView, TableView, AddTaskModal } from "../../components"
 import { useGetAllTaskQuery } from '../../redux/slices/api/taskApiSlice';
+import { useSelector } from 'react-redux';
 
 const TABS = [
   { title: "Grid View", icon: <GridView /> },
@@ -16,45 +18,48 @@ const TABS = [
 export const TasksPage = () => {
   const params = useParams();
 
+  const { user } = useSelector((state) => state.auth);
+
   const status = params?.status || ""
 
   const [selected, setSelected] = useState(0);
   const [open, setOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
 
   const { data, isLoading } = useGetAllTaskQuery({
     strQuery: status,
     isTrashed: "",
-    search: ""
+    search: searchValue
   });
-
-  console.log(data);
 
   return isLoading ? (
     <Box className='py-10'><Loading /></Box>
   ) : (
-    <Box className="w-full">
-      <Box className="flex items-center justify-between mb-4">
-        <Title title={status ? `${status} Tasks` : "All Tasks"} />
-        {
-          !status && <Button variant="contained" startIcon={<Add />} onClick={() => setOpen(true)}>
-            Create New Task
-          </Button>
-        }
-      </Box>
-      <Box>
+    <>
+      <Box className="w-full">
+        <Box className="flex items-center justify-between mb-4">
+          <Title title={status ? `${status} Tasks` : "All Tasks"} />
+          {
+            user?.isAdmin && !status && <Button variant="contained" startIcon={<Add />} onClick={() => setOpen(true)}>
+              Create New Task
+            </Button>
+          }
+          <Box className="w-64 flex items-center py-2 px-3 gap-2 rounded-full bg-[#f3f4f6]">
+            <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
+              <Search sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
+              <TextField
+                id="input-with-sx"
+                label="Search"
+                variant="standard"
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+              />
+            </Box>
+          </Box>
+        </Box>
         <Tabs tabs={TABS} setSelected={setSelected}>
-
           {selected !== 1 ? (
             <>
-              {
-                !status && (
-                  <Box className="w-full flex justify-between gap-4 md:gap-x-12 py-4">
-                    <TaskTitle label="To Do" className={TASK_TYPE.todo} />
-                    <TaskTitle label="In Progress" className={TASK_TYPE["in progress"]} />
-                    <TaskTitle label="completed" className={TASK_TYPE.completed} />
-                  </Box>
-                )
-              }
               <BoardView tasks={data?.tasks} />
             </>
           ) : (
@@ -63,9 +68,8 @@ export const TasksPage = () => {
             </div>
           )}
         </Tabs>
-
-        <AddTaskModal open={open} setOpen={setOpen}/>
       </Box>
-    </Box>
+      <AddTaskModal open={open} setOpen={setOpen} />
+    </>
   )
 }

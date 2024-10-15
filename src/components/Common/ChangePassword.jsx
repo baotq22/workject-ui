@@ -48,7 +48,7 @@ export const ChangePassword = ({ open, setOpen }) => {
         <form onSubmit={handleSubmit(handleOnSubmit)}>
           <Typography
             variant="h5"
-            className="text-base font-bold leading-6 text-gray-900 dark:text-white"
+            className="text-base font-bold leading-6 text-gray-900"
             sx={{marginBottom: "2rem"}}
           >
             Change Password
@@ -67,21 +67,6 @@ export const ChangePassword = ({ open, setOpen }) => {
                   message: 'Password must be at least 6 characters long',
                 },
               })}
-              InputProps={{
-                sx: {
-                  color: 'white',
-                },
-              }}
-              InputLabelProps={{
-                sx: {
-                  color: 'white',
-                },
-              }}
-              sx={{
-                '.MuiFormHelperText-root': {
-                  color: 'white',
-                },
-              }}
             />
           </Box>
           <Box className='mt-2 flex flex-col gap-6'>
@@ -98,21 +83,6 @@ export const ChangePassword = ({ open, setOpen }) => {
                   message: 'Confirm Password must be at least 6 characters long',
                 },
               })}
-              InputProps={{
-                sx: {
-                  color: 'white',
-                },
-              }}
-              InputLabelProps={{
-                sx: {
-                  color: 'white',
-                },
-              }}
-              sx={{
-                '.MuiFormHelperText-root': {
-                  color: 'white',
-                },
-              }}
             />
           </Box>
 
@@ -124,11 +94,11 @@ export const ChangePassword = ({ open, setOpen }) => {
               fullWidth
               disabled={isLoading}
               startIcon={isLoading && <CircularProgress size={20} />}
-              style={{ marginTop: '1rem' }}
+              style={{ margin: '1rem', padding: '0.75rem' }}
             >
               {isLoading ? 'Please Wait...' : 'Submit'}
             </Button>
-            <Button variant="contained" color="error" fullWidth style={{ marginTop: '1rem' }} onClick={() => setOpen(false)}>Close</Button>
+            <Button variant="contained" color="error" fullWidth style={{ margin: '1rem', padding: '0.75rem' }} onClick={() => setOpen(false)}>Close</Button>
           </Box>
         </form>
       </ModalWrapper>

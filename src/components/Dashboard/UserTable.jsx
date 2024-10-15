@@ -23,7 +23,6 @@ export const UserTable = ({ users }) => {
   };
 
   const TableRowData = ({ user }) => {
-    console.log(user);
     const randomBgColor = getRandomColor();
     return (
       <TableRow className='border-b border-gray-200 text-gray-600 hover:bg-gray-400/10'>
@@ -51,7 +50,7 @@ export const UserTable = ({ users }) => {
   }
 
   return (
-    <Box className='w-full md:w-1/3 bg-white dark:bg-slate-500 px-2 md:px-4 pt-4 pb-4 shadow-md rounded'>
+    <Box className='w-full md:w-1/3 bg-white px-2 md:px-4 pt-4 pb-4 shadow-md rounded'>
       <Table className='w-full mb-5'>
         <TableHeader />
         <TableBody>

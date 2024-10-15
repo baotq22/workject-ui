@@ -12,7 +12,7 @@ export const AssetsTask = ({ task }) => {
             key={index}
             src={as}
             alt={task?.title}
-            className='w-28 md:w-36 2xl:w-52 rounded h-28 md:h-36 2xl:h-52 cursor-pointer transition-all duration-700 hover:scale-125 hover:z-50'
+            className='w-28 md:w-36 2xl:w-52 rounded h-28 md:h-36 2xl:h-52 cursor-pointer transition-all duration-700 hover:scale-125 hover:z-50 object-cover'
           />
         ))}
       </Box>

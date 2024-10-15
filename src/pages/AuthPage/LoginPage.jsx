@@ -27,7 +27,6 @@ export const LoginPage = () => {
       navigate("/");
       toast.success("Login successfully!")
     } catch (error) {
-      console.log(error);
       toast.error("Login failed! Try again.")
     }
   };

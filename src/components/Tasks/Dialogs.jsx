@@ -14,6 +14,7 @@ export const ConfirmationDialog = ({
   type = "delete",
   setType = () => { },
 }) => {
+
   const closeDialog = () => {
     setType("delete");
     setMsg(null);
@@ -41,13 +42,13 @@ export const ConfirmationDialog = ({
             {msg ?? "Are you sure you want to delete the selected record?"}
           </p>
 
-          <div className='bg-gray-50 dark:bg-slate-700 dark:border-slate-800 py-3 sm:flex sm:flex-row-reverse gap-4'>
+          <div className='bg-gray-50 py-3 sm:flex sm:flex-row-reverse gap-4'>
             <Button
               variant="contained"
               color={type === "restore" || type === "restoreAll" ? "success" : "error"}
               onClick={onClick}
               style={{ marginTop: '1rem' }}
-            >{type === "restoreAll" ? "Restore" : "Delete"}</Button>
+            >{type === "restore" || type === "restoreAll" ? "Restore" : "Delete"}</Button>
 
             <Button variant="contained" color="info" fullWidth style={{ marginTop: '1rem' }} onClick={() => closeDialog()}>Cancel</Button>
 
@@ -77,7 +78,7 @@ export function UserAction({ open, setOpen, onClick = () => { } }) {
             {"Are you sure you want to activate or deactive this account?"}
           </p>
 
-          <div className='bg-gray-50 dark:bg-slate-700 py-3 sm:flex sm:flex-row-reverse gap-4'>
+          <div className='bg-gray-50 py-3 sm:flex sm:flex-row-reverse gap-4'>
             <Button
               type='button'
               variant="contained"
@@ -96,7 +97,7 @@ export function UserAction({ open, setOpen, onClick = () => { } }) {
               onClick={onClick}
             >Yes</Button>
 
-            
+
           </div>
         </div>
       </ModalWrapper>

@@ -5,7 +5,7 @@ import clsx from 'clsx'
 
 export const Title = ({title, className}) => {
   return (
-    <Typography variant='h3' className={clsx("text-2xl font-semibold capitalize dark:text-white", className)}>
+    <Typography variant='h3' className={clsx("text-2xl font-semibold capitalize", className)}>
       {title}
     </Typography>
   )

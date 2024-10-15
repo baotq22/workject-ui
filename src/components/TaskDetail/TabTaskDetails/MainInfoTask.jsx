@@ -37,16 +37,16 @@ export const MainInfoTask = ({ task }) => {
       <Box className="flex items-center gap-8 p-4 border-y border-gray-200">
         <Box className="space-x-2">
           <Typography className='font-semibold'>Assets: </Typography>
-          <Typography>{task?.assets?.length} asset(s)</Typography>
+          <Typography className=''>{task?.assets?.length} asset(s)</Typography>
         </Box>
         <Divider orientation="vertical" variant="middle" flexItem />
         <Box className="space-x-2">
           <Typography className='font-semibold'>Sub-Task: </Typography>
-          <Typography>{task?.subTasks?.length} sub-task(s)</Typography>
+          <Typography className=''>{task?.subTasks?.length} sub-task(s)</Typography>
         </Box>
       </Box>
       <Box className="space-y-4 py-6">
-        <Typography variant='h6'>TASK TEAM MEMBER</Typography>
+        <Typography variant='h6' className=''>TASK TEAM MEMBER</Typography>
         <Box className="space-y-3">
           {task?.team?.map((m, index) => (
             <Box key={index} className="flex gap-4 py-2 items-center border-t border-gray-200">
@@ -64,7 +64,7 @@ export const MainInfoTask = ({ task }) => {
         </Box>
       </Box>
       <Box className="space-y-4 py-6">
-        <Typography variant='h6'>SUB-TASKS</Typography>
+        <Typography variant='h6' className=''>SUB-TASKS</Typography>
         <Box className="space-y-8">
           {task?.subTasks?.map((st, index) => (
             <Box key={index} className="flex gap-3">
@@ -73,10 +73,10 @@ export const MainInfoTask = ({ task }) => {
               </Box>
               <Box className="space-y-1">
                 <Box className="flex gap-2 items-center">
-                  <Typography>{new Date(st?.date).toDateString()}</Typography>
+                  <Typography className=''>{new Date(st?.date).toDateString()}</Typography>
                   <Typography className='px-2 py-0.5 text-center text-sm rounded-full bg-violet-100 text-fuchsia-600 font-semibold'>{st?.tag}</Typography>
                 </Box>
-                <Typography className='text-gray-700'>{st?.title}</Typography>
+                <Typography className='text-gray-600'>{st?.title}</Typography>
               </Box>
             </Box>
           ))}

@@ -2,13 +2,22 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify'
 
 import { AppLayout } from '../layout/AppLayout';
-import { DashboardPage, LoginPage, TaskDetailsPage, TasksPage, TrashPage, UsersPage } from "../pages";
+import { 
+  DashboardPage, 
+  LoginPage, 
+  ProfilePage, 
+  TaskDetailsPage, 
+  TasksPage, 
+  TrashPage, 
+  UsersPage,
+  NotificationPage
+} from "../pages";
 
 import 'react-toastify/dist/ReactToastify.css';
 
 export const App = () => {
   return (
-    <main className='w-full min-h-screen bg-[#f3f4f6] dark:bg-slate-800'>
+    <main className='w-full min-h-screen bg-[#f3f4f6]'>
       <Routes>
         {/* Private Routes */}
         <Route element={<AppLayout />}>
@@ -20,7 +29,9 @@ export const App = () => {
           <Route path="/todo/:status" element={<TasksPage />} />
           <Route path="/users" element={<UsersPage />} />
           <Route path="/deleted" element={<TrashPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/task/:id" element={<TaskDetailsPage />} />
+          <Route path="/notification" element={<NotificationPage />} />
         </Route>
         <Route path='login' element={<LoginPage />} />
       </Routes>

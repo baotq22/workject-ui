@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export const AddSubTaskModal = ({ open, setOpen, id }) => {
   const todayDate = new Date().toISOString().split('T')[0];
-  
+
   const {
     register,
     handleSubmit,
@@ -28,7 +28,6 @@ export const AddSubTaskModal = ({ open, setOpen, id }) => {
         setOpen(false);
       }, 500);
     } catch (err) {
-      console.log(err);
       toast.error(err?.data?.message || err.error);
     }
   };
@@ -39,12 +38,12 @@ export const AddSubTaskModal = ({ open, setOpen, id }) => {
         <form onSubmit={handleSubmit(handleOnSubmit)} className=''>
           <Dialog.Title
             as='h2'
-            className='text-base font-bold leading-6 text-gray-900 dark:text-white mb-4'
+            className='text-base font-bold leading-6 text-gray-900 mb-4'
           >
             ADD SUB-TASK
           </Dialog.Title>
           <Box className='mt-2 flex flex-col gap-6'>
-            <Box className="bg-white dark:bg-slate-700 flex flex-col">
+            <Box className="bg-white flex flex-col">
               <TextField
                 label="Sub-Task Title"
                 name="title"
@@ -57,21 +56,6 @@ export const AddSubTaskModal = ({ open, setOpen, id }) => {
                     message: 'Enter a valid title',
                   },
                 })}
-                InputProps={{
-                  sx: {
-                    color: 'white',
-                  },
-                }}
-                InputLabelProps={{
-                  sx: {
-                    color: 'white',
-                  },
-                }}
-                sx={{
-                  '.MuiFormHelperText-root': {
-                    color: 'white',
-                  },
-                }}
               />
             </Box>
 
@@ -90,8 +74,8 @@ export const AddSubTaskModal = ({ open, setOpen, id }) => {
             </Box>
 
             <Box className='mt-2 flex flex-col gap-6'>
-              <Box className="bg-white dark:bg-slate-700 flex flex-col">
-                <TextField  
+              <Box className="bg-white flex flex-col">
+                <TextField
                   label="Tag"
                   name="tag"
                   error={!!errors.tag}
@@ -103,21 +87,6 @@ export const AddSubTaskModal = ({ open, setOpen, id }) => {
                       message: 'Enter a valid tag',
                     },
                   })}
-                  InputProps={{
-                    sx: {
-                      color: 'white',
-                    },
-                  }}
-                  InputLabelProps={{
-                    sx: {
-                      color: 'white',
-                    },
-                  }}
-                  sx={{
-                    '.MuiFormHelperText-root': {
-                      color: 'white',
-                    },
-                  }}
                 />
               </Box>
             </Box>

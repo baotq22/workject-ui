@@ -10,12 +10,13 @@ import { AddTaskModal, AddSubTaskModal, ConfirmationDialog } from '../../compone
 import { useDuplicateTaskMutation, useTrashTaskMutation } from '../../redux/slices/api/taskApiSlice';
 
 import 'react-toastify/dist/ReactToastify.css';
+import { useSelector } from 'react-redux';
 
 export const TaskDialog = ({ task }) => {
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-
+  const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
   const [deleteTask] = useTrashTaskMutation();
@@ -29,7 +30,6 @@ export const TaskDialog = ({ task }) => {
 
       setTimeout(() => {
         setOpenDialog(false);
-        window.location.reload();
       }, 500);
     } catch (error) {
       toast.error(error);
@@ -51,7 +51,6 @@ export const TaskDialog = ({ task }) => {
 
       setTimeout(() => {
         setOpenDialog(false);
-        window.location.reload();
       }, 500);
     } catch (error) {
       toast.error(error);
@@ -63,21 +62,25 @@ export const TaskDialog = ({ task }) => {
       label: "Open Task",
       icon: <FolderOpen className='mr-2 h-5 w-5' aria-hidden='true' />,
       onClick: () => navigate(`/task/${task._id}`),
+      hide: ""
     },
     {
       label: "Edit",
       icon: <Edit className='mr-2 h-5 w-5' aria-hidden='true' />,
       onClick: () => setOpenEdit(true),
+      hide: !user?.isAdmin
     },
     {
       label: "Add Sub-Task",
       icon: <Add className='mr-2 h-5 w-5' aria-hidden='true' />,
       onClick: () => setOpen(true),
+      hide: !user?.isAdmin
     },
     {
       label: "Duplicate",
       icon: <ContentCopy className='mr-2 h-5 w-5' aria-hidden='true' />,
       onClick: () => duplicateHandler(),
+      hide: !user?.isAdmin
     },
   ];
 
@@ -85,7 +88,7 @@ export const TaskDialog = ({ task }) => {
     <>
       <Box>
         <Menu as="div" className="relative inline-block text-left">
-          <Menu.Button className='inline-flex w-full justify-center rounded-md px-4 py-2 text-sm font-medium text-gray-600 dark:text-gray-100 '>
+          <Menu.Button className='inline-flex w-full justify-center rounded-md px-4 py-2 text-sm font-medium text-gray-600 '>
             <MoreVert />
           </Menu.Button>
           <Transition
@@ -97,14 +100,14 @@ export const TaskDialog = ({ task }) => {
             leaveFrom='transform opacity-100 scale-100'
             leaveTo='transform opacity-0 scale-95'
           >
-            <Menu.Items className='absolute p-4 right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white dark:bg-slate-700 shadow-lg ring-1 ring-black/5 z-50 focus:outline-none'>
+            <Menu.Items className='absolute p-4 right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 z-50 focus:outline-none'>
               <Box className='py-1 px-1 space-y-2'>
                 {items.map((el) => (
-                  <Menu.Item key={el.label}>
+                  !el.hide && <Menu.Item key={el.label}>
                     {({ active }) => (
                       <button
                         onClick={el?.onClick}
-                        className={`${active ? "bg-blue-500 text-white" : "text-gray-900 dark:text-white"
+                        className={`${active ? "bg-blue-500 text-white" : "text-gray-900"
                           } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                       >
                         {el.icon}
@@ -114,23 +117,25 @@ export const TaskDialog = ({ task }) => {
                   </Menu.Item>
                 ))}
               </Box>
-              <Box className="px-1 py-1">
-                <Menu.Item>
-                  {({ active }) => (
-                    <button
-                      onClick={() => deleteClicks()}
-                      className={`${active ? "bg-blue-500 text-white" : "text-red-900 dark:text-red-400"
-                        } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                    >
-                      <Delete
-                        className='mr-2 h-5 w-5 text-red-400'
-                        aria-hidden='true'
-                      />
-                      Delete
-                    </button>
-                  )}
-                </Menu.Item>
-              </Box>
+              {user?.isAdmin &&
+                <Box className="px-1 py-1">
+                  <Menu.Item>
+                    {({ active }) => (
+                      <button
+                        onClick={() => deleteClicks()}
+                        className={`${active ? "bg-blue-500 text-white" : "text-red-900"
+                          } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                      >
+                        <Delete
+                          className='mr-2 h-5 w-5 text-red-400'
+                          aria-hidden='true'
+                        />
+                        Delete
+                      </button>
+                    )}
+                  </Menu.Item>
+                </Box>
+              }
             </Menu.Items>
           </Transition>
         </Menu>

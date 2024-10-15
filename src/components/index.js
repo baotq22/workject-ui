@@ -29,7 +29,6 @@ export * from "./Tasks/SelectList"
 export * from "./Tasks/TableView"
 export * from "./Tasks/TaskCard"
 export * from "./Tasks/TaskDialog"
-export * from "./Tasks/TaskTitle"
 export * from "./Tasks/UserList"
 
 export * from "./Users/AddUser"

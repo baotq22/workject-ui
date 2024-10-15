@@ -16,7 +16,7 @@ export const TaskTable = ({ tasks }) => {
 
   const TableHeader = () => {
     return (
-      <TableHead className="border-b border-gray-300 dark:text-gray-100">
+      <TableHead className="border-b border-gray-300">
         <TableRow className="text-left">
           <TableCell className="py-2">Task Title</TableCell>
           <TableCell className="py-2">Priority</TableCell>
@@ -32,14 +32,24 @@ export const TaskTable = ({ tasks }) => {
       <TableRow className='border-b border-gray-300 text-gray-500 hover:bg-gray-300/10'>
         <TableCell className="py-2">
           <Box className="flex items-center gap-2">
-            <Typography className={clsx("w-4 h-4 rounded-full", TASK_TYPE[task.stage])} />
-            <Typography>{task.title}</Typography>
+            <Typography
+              className={clsx("w-4 h-4 rounded-full", TASK_TYPE[task.stage])}
+            />
+            <Typography
+            >{task.title}
+            </Typography>
           </Box>
         </TableCell>
         <TableCell className='py-2'>
           <Box className="flex gap-1 items-center">
-            <Typography className={clsx("text-lg", PRIORITY_STYLES[task.priority])}>{ICONS[task.priority]}</Typography>
-            <Typography>{task.priority}</Typography>
+            <Typography
+              className={clsx("text-lg", PRIORITY_STYLES[task.priority])}
+            >
+              {ICONS[task.priority]}
+            </Typography>
+            <Typography>
+              {task.priority}
+            </Typography>
           </Box>
         </TableCell>
         <TableCell className='py-2'>
@@ -52,7 +62,9 @@ export const TaskTable = ({ tasks }) => {
           </Box>
         </TableCell>
         <TableCell className='py-2 hidden md:block'>
-          <Typography className='text-base text-gray-600'>
+          <Typography
+            className='text-base text-gray-600'
+          >
             {moment(task?.date).fromNow()}
           </Typography>
         </TableCell>
@@ -61,7 +73,7 @@ export const TaskTable = ({ tasks }) => {
   }
 
   return (
-    <Box className='w-full md:w-2/3 bg-white dark:bg-slate-500 px-2 md:px-4 pt-4 pb-4 shadow-md rounded'>
+    <Box className='w-full md:w-2/3 bg-white px-2 md:px-4 pt-4 pb-4 shadow-md rounded'>
       <Table>
         <TableHeader />
         <TableBody>

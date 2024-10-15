@@ -14,7 +14,7 @@ export const ViewNotification = ({open, setOpen, el}) => {
             {el?.task?.title}
           </Dialog.Title>
 
-          <Typography className='text-start text-gray-500 dark:text-white'>{el?.text}</Typography>
+          <Typography className='text-start text-gray-500'>{el?.text}</Typography>
 
           <Button onClick={() => setOpen(false)} variant='contained' color='success'>
             OK

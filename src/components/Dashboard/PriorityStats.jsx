@@ -12,10 +12,10 @@ import {
 } from "recharts";
 import { Box, Typography } from "@mui/material";
 
-export const PriorityStats = ({data}) => {
+export const PriorityStats = ({ data }) => {
   return (
-    <Box className='w-full bg-white dark:bg-slate-700 my-16 p-4 rounded shadow-sm'>
-      <Typography variant="h5" className='text-xl text-gray-600 dark:text-gray-100' sx={{marginBottom: "1.5rem"}}>Priority Statistics</Typography>
+    <Box className='w-full bg-white my-16 p-4 rounded shadow-sm'>
+      <Typography variant="h5" className='text-xl text-gray-600' sx={{ marginBottom: "1.5rem" }}>Priority Statistics</Typography>
       <ResponsiveContainer width={"100%"} height={300}>
         <BarChart width={150} height={40} data={data}>
           <XAxis dataKey='name' />
