@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify'
-
+import { ToastContainer } from 'react-toastify';
 import { AppLayout } from '../layout/AppLayout';
+import ProtectedRoute from './ProtectedRoute';
 import { 
   DashboardPage, 
   LoginPage, 
@@ -19,8 +19,7 @@ export const App = () => {
   return (
     <main className='w-full min-h-screen bg-[#f3f4f6]'>
       <Routes>
-        {/* Private Routes */}
-        <Route element={<AppLayout />}>
+        <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
           <Route index path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/tasks" element={<TasksPage />} />

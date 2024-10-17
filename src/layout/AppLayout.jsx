@@ -1,13 +1,10 @@
-import React from "react";
-
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Outlet, redirect } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Box } from "@mui/material";
-
 import { Sidebar, Navbar, MobileSideBar } from "../components";
-
 import 'react-toastify/dist/ReactToastify.css';
 
 const theme = createTheme({
@@ -18,9 +15,16 @@ const theme = createTheme({
 
 export const AppLayout = () => {
   const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+  }, [user, navigate]);
 
   if (!user) {
-    return redirect("/login")
+    return null;
   }
 
   return (
