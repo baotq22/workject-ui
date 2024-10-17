@@ -27,7 +27,19 @@ export const authApiSlice = apiReducer.injectEndpoints({
         credentials: "include",
       }),
     }),
+    changePassword: builder.mutation({
+      query: (data) => ({
+        url: `${AUTH_URL}/change-password`,
+        method: "PUT",
+        body: data,
+        credentials: "include",
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation, useLogoutMutation } = authApiSlice;
+export const { 
+  useLoginMutation, 
+  useRegisterMutation, 
+  useLogoutMutation,
+  useChangePasswordMutation, } = authApiSlice;

@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 
-import { Bolt, Speed, SlowMotionVideo, Balance, Message, InsertDriveFile, FormatListBulleted, Add } from '@mui/icons-material';
+import { FolderOpen, Message, InsertDriveFile, FormatListBulleted, Add } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import { Box, Button, Divider, Typography } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 
 import { BGS, formatDate, PRIORITY_STYLES, TASK_TYPE } from '../../utils';
@@ -11,6 +12,7 @@ import { TaskDialog, UserInfo, AddSubTaskModal, ICONS } from '../../components';
 export const TaskCard = ({ task }) => {
   const { user } = useSelector((state) => state.auth);
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -20,7 +22,7 @@ export const TaskCard = ({ task }) => {
             <Typography className='text-lg'>{ICONS[task?.priority]}</Typography>
             <Typography className='uppercase'>Priority level: {task?.priority}</Typography>
           </Box>
-          <Box className={clsx("w-28 h-8 text-white text-center justify-center rounded-full mt-1", TASK_TYPE[task.stage])}>
+          <Box className={clsx("w-28 h-8 text-white flex items-center text-center justify-center rounded-full mt-1", TASK_TYPE[task.stage])}>
             {task?.stage}
           </Box>
           <TaskDialog task={task} />
@@ -75,10 +77,16 @@ export const TaskCard = ({ task }) => {
           </Box>}
 
         <Box className="w-full pb-2">
-          {user?.isAdmin ? <Button variant='contained' onClick={() => setOpen(true)}>
-            <Add className='text-lg' />
-            <Typography>Add New Sub-Task</Typography>
-          </Button> : <></>}
+          {user?.isAdmin ?
+            <Button variant='contained' onClick={() => setOpen(true)} sx={{margin: "0.5rem"}}>
+              <Add className='text-lg' />
+              <Typography>Add New Sub-Task</Typography>
+            </Button> : <></>
+          }
+          <Button variant='contained' color="secondary" onClick={() => navigate(`/task/${task._id}`)} sx={{margin: "0.5rem"}}>
+            <FolderOpen className='text-lg' />
+            <Typography>View Details</Typography>
+          </Button>
         </Box>
       </Box>
       <AddSubTaskModal open={open} setOpen={setOpen} id={task._id} />

@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from 'react'
 
-import { useNavigate } from 'react-router-dom';
-import { FolderOpen, Edit, Add, ContentCopy, MoreVert, Delete } from '@mui/icons-material';
+import { Edit, Add, ContentCopy, MoreVert, Delete } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import { Menu, Transition } from '@headlessui/react';
 import { toast } from 'react-toastify';
@@ -17,7 +16,6 @@ export const TaskDialog = ({ task }) => {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const { user } = useSelector((state) => state.auth);
-  const navigate = useNavigate();
 
   const [deleteTask] = useTrashTaskMutation();
   const [duplicateTask] = useDuplicateTaskMutation();
@@ -54,12 +52,6 @@ export const TaskDialog = ({ task }) => {
   };
 
   const items = [
-    {
-      label: "Open Task",
-      icon: <FolderOpen className='mr-2 h-5 w-5' aria-hidden='true' />,
-      onClick: () => navigate(`/task/${task._id}`),
-      hide: ""
-    },
     {
       label: "Edit",
       icon: <Edit className='mr-2 h-5 w-5' aria-hidden='true' />,

@@ -54,15 +54,6 @@ export const userApiSlice = apiReducer.injectEndpoints({
         credentials: "include",
       }),
     }),
-
-    changePassword: builder.mutation({
-      query: (data) => ({
-        url: `${USER_URL}/change-password`,
-        method: "PUT",
-        body: data,
-        credentials: "include",
-      }),
-    }),
   }),
 });
 
@@ -73,5 +64,4 @@ export const {
   useUserActionMutation,
   useGetNotificationsQuery,
   useMarkNotiAsReadMutation,
-  useChangePasswordMutation,
 } = userApiSlice

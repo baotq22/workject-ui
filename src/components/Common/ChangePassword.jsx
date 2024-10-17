@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react'
-
-import { useForm } from 'react-hook-form'
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { Box, Button, TextField, CircularProgress, Typography } from '@mui/material';
-
-import { useChangePasswordMutation } from '../../redux/slices/api/userApiSlice';
+import { useChangePasswordMutation } from '../../redux/slices/api/authApiSlice';
 import { ModalWrapper } from './ModalWrapper';
 
 export const ChangePassword = ({ open, setOpen }) => {
@@ -21,16 +19,17 @@ export const ChangePassword = ({ open, setOpen }) => {
 
   const handleOnSubmit = async (data) => {
     if (data.password !== data.cpass) {
-      toast.warning("Password does't match. Try again!");
+      toast.warning("Passwords do not match. Try again!");
       return;
     }
+
     try {
       const res = await changeUserPassword(data).unwrap();
-      toast.success("Change Password Successfully");
+      toast.success("Password changed successfully");
 
       setOpen(false);
     } catch (error) {
-      toast.error(error?.data?.message);
+      toast.error(error?.data?.message || "An error occurred");
     }
   };
 
@@ -42,7 +41,6 @@ export const ChangePassword = ({ open, setOpen }) => {
     setIsPasswordMatch(password === confirmPassword || !confirmPassword);
   }, [password, confirmPassword]);
 
-
   useEffect(() => {
     if (open) {
       reset();
@@ -52,13 +50,19 @@ export const ChangePassword = ({ open, setOpen }) => {
   return (
     <ModalWrapper open={open} setOpen={setOpen}>
       <form onSubmit={handleSubmit(handleOnSubmit)}>
-        <Typography
-          variant="h5"
-          className="text-base font-bold leading-6 text-gray-900"
-          sx={{ marginBottom: "2rem" }}
-        >
+        <Typography variant="h5" className="text-base font-bold leading-6 text-gray-900" sx={{ marginBottom: "2rem" }}>
           Change Password
         </Typography>
+        <Box className='mt-2 flex flex-col gap-6'>
+          <TextField
+            label="Current Password"
+            type="password"
+            name="currentPassword"
+            error={!!errors.currentPassword}
+            helperText={errors.currentPassword?.message}
+            {...register('currentPassword', { required: 'Current password is required' })}
+          />
+        </Box>
         <Box className='mt-2 flex flex-col gap-6'>
           <TextField
             label="New Password"
@@ -67,7 +71,7 @@ export const ChangePassword = ({ open, setOpen }) => {
             error={!!errors.password}
             helperText={errors.password?.message}
             {...register('password', {
-              required: 'Password is required',
+              required: 'New password is required',
               minLength: {
                 value: 6,
                 message: 'Password must be at least 6 characters long',
@@ -87,10 +91,10 @@ export const ChangePassword = ({ open, setOpen }) => {
             error={!!errors.cpass || !isPasswordMatch}
             helperText={errors.cpass?.message || (!isPasswordMatch && "Passwords do not match")}
             {...register('cpass', {
-              required: 'Confirm Password is required',
+              required: 'Confirm password is required',
               minLength: {
                 value: 6,
-                message: 'Confirm Password must be at least 6 characters long',
+                message: 'Confirm password must be at least 6 characters long',
               },
             })}
           />
@@ -112,5 +116,5 @@ export const ChangePassword = ({ open, setOpen }) => {
         </Box>
       </form>
     </ModalWrapper>
-  )
-}
+  );
+};
