@@ -11,20 +11,6 @@ import { useGetSingleTaskQuery, usePostTasksActivityMutation } from '../../redux
 
 import 'react-toastify/dist/ReactToastify.css';
 
-const assets = [
-  "https://images.pexels.com/photos/2418664/pexels-photo-2418664.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  "https://images.pexels.com/photos/8797307/pexels-photo-8797307.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  "https://images.pexels.com/photos/2534523/pexels-photo-2534523.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  "https://images.pexels.com/photos/804049/pexels-photo-804049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-];
-
-const ICONS = {
-  high: <Bolt />,
-  medium: <Speed />,
-  low: <SlowMotionVideo />,
-  normal: <Balance />,
-};
-
 const TABS = [
   { title: "Task Detail", icon: <Task /> },
   { title: "Activities/Timeline", icon: <ViewList /> },

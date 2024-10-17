@@ -33,12 +33,12 @@ export const MobileSideBar = () => {
         className={clsx('md:hidden w-full h-full bg-black/40 transition-all duration-700 transform',
           isSidebarOpen ? "translate-x-0" : "translate-x-full"
         )}
-        onClick={() => closeSidebar()}
+        onClick={closeSidebar}
       >
         <Box className="bg-white w-full h-full">
           <Box className="w-full flex justify-end px-5 mt-5">
             <Button
-              onClick={() => closeSidebar()}
+              onClick={closeSidebar}
               className='flex justify-end items-end'
             >
               <Close size={25} />

@@ -28,9 +28,7 @@ export const TaskDialog = ({ task }) => {
 
       toast.success(res?.message);
 
-      setTimeout(() => {
-        setOpenDialog(false);
-      }, 500);
+      setOpenDialog(false);
     } catch (error) {
       toast.error(error);
     }
@@ -49,9 +47,7 @@ export const TaskDialog = ({ task }) => {
 
       toast.success(res?.message);
 
-      setTimeout(() => {
-        setOpenDialog(false);
-      }, 500);
+      setOpenDialog(false);
     } catch (error) {
       toast.error(error);
     }

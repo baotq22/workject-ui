@@ -42,9 +42,7 @@ export const AddUser = ({ open, setOpen, userData, refetch }) => {
 
       refetch();
 
-      setTimeout(() => {
-        setOpen(false)
-      }, 2000)
+      setOpen(false);
     } catch (error) {
       toast.error("Something went wrong!")
     }

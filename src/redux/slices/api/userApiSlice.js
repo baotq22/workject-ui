@@ -1,6 +1,6 @@
 import { apiReducer } from "../apiSlice";
 
-const USER_URL = "/api/user";
+const USER_URL = "/api/api/user";
 
 export const userApiSlice = apiReducer.injectEndpoints({
   endpoints: (builder) => ({

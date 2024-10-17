@@ -45,9 +45,8 @@ export const UsersPage = () => {
 
       toast.success("Delete Successfully!");
       setSelected(null);
-      setTimeout(() => {
-        setOpenDialog(false);
-      }, 1500);
+      
+      setOpenDialog(false);
     } catch (error) {
       toast.error("Delete Failed!")
     }
@@ -61,9 +60,8 @@ export const UsersPage = () => {
 
       refetch();
       toast.success("Operation Successfully!");
-      setTimeout(() => {
-        setOpenAction(false);
-      }, 1000);
+      
+      setOpenAction(false);
     } catch (error) {
       toast.error("Operation Failed!")
     }

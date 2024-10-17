@@ -3,22 +3,15 @@ import React, { useState } from 'react'
 import { Bolt, Speed, SlowMotionVideo, Balance, Message, InsertDriveFile, FormatListBulleted } from '@mui/icons-material';
 import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 
 import { BGS, formatDate, PRIORITY_STYLES, TASK_TYPE } from '../../utils';
-import { UserInfo, ConfirmationDialog, AddTaskModal } from '../../components';
+import { UserInfo, ConfirmationDialog, AddTaskModal, ICONS } from '../../components';
 import { useTrashTaskMutation } from '../../redux/slices/api/taskApiSlice';
 
 import 'react-toastify/dist/ReactToastify.css';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-
-const ICONS = {
-  high: <Bolt />,
-  medium: <Speed />,
-  low: <SlowMotionVideo />,
-  normal: <Balance />,
-};
 
 export const TableView = ({ tasks }) => {
   const { user } = useSelector((state) => state.auth);

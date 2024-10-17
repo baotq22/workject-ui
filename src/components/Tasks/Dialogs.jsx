@@ -5,6 +5,11 @@ import clsx from "clsx";
 
 import { ModalWrapper } from "../../components";
 
+export const DIALOG_TYPE = {
+	"DELETE": "delete",
+	"RESTORE": "restore",
+}
+
 export const ConfirmationDialog = ({
   open,
   setOpen,
@@ -16,7 +21,7 @@ export const ConfirmationDialog = ({
 }) => {
 
   const closeDialog = () => {
-    setType("delete");
+    setType(DIALOG_TYPE.DELETE);
     setMsg(null);
     setOpen(false);
   };

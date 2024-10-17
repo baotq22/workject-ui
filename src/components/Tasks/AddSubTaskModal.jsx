@@ -24,9 +24,8 @@ export const AddSubTaskModal = ({ open, setOpen, id }) => {
     try {
       const res = await addSbTask({ data, id }).unwrap();
       toast.success(res.message);
-      setTimeout(() => {
-        setOpen(false);
-      }, 500);
+      
+      setOpen(false);
     } catch (err) {
       toast.error(err?.data?.message || err.error);
     }

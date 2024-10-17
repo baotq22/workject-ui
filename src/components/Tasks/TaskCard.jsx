@@ -6,13 +6,7 @@ import { Box, Button, Divider, Typography } from '@mui/material';
 import clsx from 'clsx';
 
 import { BGS, formatDate, PRIORITY_STYLES, TASK_TYPE } from '../../utils';
-import { TaskDialog, UserInfo, AddSubTaskModal } from '../../components';
-const ICONS = {
-  high: <Bolt />,
-  medium: <Speed />,
-  low: <SlowMotionVideo />,
-  normal: <Balance />,
-};
+import { TaskDialog, UserInfo, AddSubTaskModal, ICONS } from '../../components';
 
 export const TaskCard = ({ task }) => {
   const { user } = useSelector((state) => state.auth);

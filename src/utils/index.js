@@ -1,5 +1,3 @@
-import React from 'react'
-
 export const formatDate = (date) => {
   const month = date.toLocaleString("en-US", { month: "short" });
   const day = date.getDate();
@@ -77,7 +75,7 @@ export const BGSU = [
   "bg-fuchsia-600",
   "bg-pink-600",
   "bg-rose-600",
-]
+];
 
 export const bgColor = {
   high: "bg-red-200",
@@ -87,3 +85,4 @@ export const bgColor = {
 
 export const LISTS = ["TODO", "IN PROGRESS", "COMPLETED"];
 export const PRIORIRY = ["HIGH", "MEDIUM", "NORMAL", "LOW"];
+

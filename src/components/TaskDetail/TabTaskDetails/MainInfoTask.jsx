@@ -5,13 +5,7 @@ import { Bolt, Speed, SlowMotionVideo, Balance, TaskAlt } from '@mui/icons-mater
 import clsx from 'clsx';
 
 import { bgColor, getInitials, PRIORITY_STYLES, TASK_TYPE } from '../../../utils'
-
-const ICONS = {
-  high: <Bolt />,
-  medium: <Speed />,
-  low: <SlowMotionVideo />,
-  normal: <Balance />,
-};
+import { ICONS } from '../..';
 
 export const MainInfoTask = ({ task }) => {
   return (

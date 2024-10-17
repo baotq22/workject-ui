@@ -1,25 +1,14 @@
 import React, { useState } from 'react'
 
-import { Box, Typography } from '@mui/material'
-import { NotificationsActive, Notifications, ChatBubble } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { Box, Button, Typography } from '@mui/material'
+import { NotificationsActive } from '@mui/icons-material';
 import moment from 'moment';
 import clsx from 'clsx';
 
-import { Title, ViewNotification } from '../../components'
+import { ICONSNotify, READ_HANDLER_TYPE, Title, ViewNotification } from '../../components'
 import { useGetNotificationsQuery, useMarkNotiAsReadMutation } from '../../redux/slices/api/userApiSlice';
 
-const ICONS = {
-  alert: (
-    <NotificationsActive className='h-5 w-5 text-gray-600 group-hover:text-indigo-600' />
-  ),
-  message: (
-    <ChatBubble className='h-5 w-5 text-gray-600 group-hover:text-indigo-600' />
-  )
-}
-
 export const NotificationPage = () => {
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
 
@@ -42,6 +31,11 @@ export const NotificationPage = () => {
       <Box className="w-full md:px-1 px-0 mb-6">
         <Box className="flex items-center justify-between mb-8">
           <Title title="All Notifications" />
+          <Button
+            variant='contained'
+            startIcon={<NotificationsActive />}
+            onClick={() => readHandler(READ_HANDLER_TYPE.ALL, "")}
+          >Mark All as Read</Button>
         </Box>
         <Box className="bg-white px-2 md:px-4 py-4">
           <Box className="overflow-x-auto">
@@ -50,18 +44,16 @@ export const NotificationPage = () => {
                 {data.notice.map((item, index) => (
                   <Box
                     key={item._id + index}
-                    className={clsx('group relative flex gap-x-4 rounded-lg p-4 hover:bg-gray-50 hover:dark:bg-slate-900 my-2',
+                    className={clsx('group relative flex cursor-pointer gap-x-4 rounded-lg p-4 hover:bg-gray-50 hover:dark:bg-slate-900 my-2',
                       item.isRead.length > 0 ? '' : 'bg-gray-100'
                     )}
+                    onClick={() => viewHandler(item)}
                   >
                     <Box className='mt-1 h-8 w-8 flex items-center justify-center rounded-lg bg-gray-200 hover:dark:bg-slate-700'>
-                      {ICONS[item.notiType]}
+                      {ICONSNotify[item.notiType]}
                     </Box>
 
-                    <Box
-                      className='cursor-pointer'
-                      onClick={() => viewHandler(item)}
-                    >
+                    <Box>
                       <Box className='flex items-center gap-3 font-semibold text-gray-900 capitalize'>
                         <Typography> {item.notiType}</Typography>
                         <Typography className='text-xs font-normal lowercase'>

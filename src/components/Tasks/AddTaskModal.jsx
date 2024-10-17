@@ -140,9 +140,7 @@ export const AddTaskModal = ({ open, setOpen, task }) => {
 
       resetFormState();
 
-      setTimeout(() => {
-        setOpen(false);
-      }, 500);
+      setOpen(false);
     } catch (error) {
       toast.error("Failed", error);
     }

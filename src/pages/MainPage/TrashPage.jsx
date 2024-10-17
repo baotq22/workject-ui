@@ -6,17 +6,10 @@ import { toast } from 'react-toastify';
 import clsx from 'clsx';
 
 import { PRIORITY_STYLES, TASK_TYPE } from '../../utils';
-import { ConfirmationDialog, Loading, Title } from '../../components';
+import { ConfirmationDialog, ICONS, Loading, Title } from '../../components';
 import { useDeleteRestoreTaskMutation, useGetAllTaskQuery } from '../../redux/slices/api/taskApiSlice';
 
 import 'react-toastify/dist/ReactToastify.css';
-
-const ICONS = {
-  high: <Bolt />,
-  medium: <Speed />,
-  low: <SlowMotionVideo />,
-  normal: <Balance />,
-};
 
 export const TrashPage = () => {
 

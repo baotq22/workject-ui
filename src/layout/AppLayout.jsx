@@ -1,12 +1,14 @@
 import React from "react";
 
 import { useSelector } from "react-redux";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { Outlet, redirect } from "react-router-dom";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Box } from "@mui/material";
 
 import { Sidebar, Navbar, MobileSideBar } from "../components";
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const theme = createTheme({
   typography: {
@@ -16,9 +18,12 @@ const theme = createTheme({
 
 export const AppLayout = () => {
   const { user } = useSelector((state) => state.auth);
-  const location = useLocation();
 
-  return user ? (
+  if (!user) {
+    return redirect("/login")
+  }
+
+  return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box className='w-full h-screen flex flex-col md:flex-row'>
@@ -36,7 +41,5 @@ export const AppLayout = () => {
         </Box>
       </Box>
     </ThemeProvider>
-  ) : (
-    <Navigate to='/login' state={{ from: location }} replace />
-  );
+  )
 }

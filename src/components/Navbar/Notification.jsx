@@ -8,21 +8,25 @@ import { useGetNotificationsQuery, useMarkNotiAsReadMutation } from '../../redux
 import { ViewNotification } from '../Common/ViewNotification';
 import clsx from 'clsx';
 
-const ICONS = {
+export const ICONSNotify = {
   alert: (
     <Notifications className='h-5 w-5 text-gray-600 group-hover:text-indigo-600' />
   ),
   message: (
     <ChatBubble className='h-5 w-5 text-gray-600 group-hover:text-indigo-600' />
   )
-}
+};
+
+export const READ_HANDLER_TYPE = {
+  ALL: "all",
+  INDIVIDUAL: "one"
+};
 
 export const Notification = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState(null);
 
-  // Extract notice and unreadCount from the query response
   const { data, refetch } = useGetNotificationsQuery();
   const [markAsRead] = useMarkNotiAsReadMutation();
 
@@ -33,7 +37,7 @@ export const Notification = () => {
 
   const viewHandler = async (el) => {
     setSelected(el);
-    readHandler("one", el._id);
+    readHandler(READ_HANDLER_TYPE.INDIVIDUAL, el._id);
     setOpen(true);
   };
 
@@ -43,9 +47,9 @@ export const Notification = () => {
 
   const callsToAction = [
     {
-      name: "Mark as Read",
+      name: "Mark All as Read",
       icon: "",
-      onClick: () => readHandler("all", "")
+      onClick: () => readHandler(READ_HANDLER_TYPE.ALL, "")
     },
     {
       name: "View All Notifications",
@@ -89,7 +93,7 @@ export const Notification = () => {
                         )}
                       >
                         <Box className='mt-1 h-8 w-8 flex items-center justify-center rounded-lg bg-gray-200 hover:dark:bg-slate-700'>
-                          {ICONS[item.notiType]}
+                          {ICONSNotify[item.notiType]}
                         </Box>
 
                         <Box

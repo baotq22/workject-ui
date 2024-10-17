@@ -2,8 +2,8 @@ import React from 'react'
 
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Home, BusinessCenter, DoneOutline, Loop, Checklist, Delete, Person, People, Settings, AssignmentTurnedIn } from '@mui/icons-material';
-import { Box, Button, Typography } from '@mui/material';
+import { Home, BusinessCenter, DoneOutline, Loop, Checklist, Delete, Person, People, AssignmentTurnedIn } from '@mui/icons-material';
+import { Box, Typography } from '@mui/material';
 import clsx from 'clsx';
 
 import { setOpenSidebar } from '../../redux/slices/authSlice';

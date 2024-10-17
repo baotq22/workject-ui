@@ -1,6 +1,6 @@
 import { apiReducer } from "../apiSlice";
 
-const TASK_URL = "/api/task";
+const TASK_URL = "/api/api/task";
 
 export const taskApiSlice = apiReducer.injectEndpoints({
   endpoints: (builder) => ({
@@ -53,7 +53,7 @@ export const taskApiSlice = apiReducer.injectEndpoints({
     
     trashTask: builder.mutation({
       query: ({id}) => ({
-        url: `${TASK_URL}/${id}`,
+        url: `${TASK_URL}/cancel/${id}`,
         method: "PUT",
         credentials: "include",
       }),
