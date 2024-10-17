@@ -1,6 +1,6 @@
 import { apiReducer } from "../apiSlice";
 
-const TASK_URL = "/api/api/task";
+const TASK_URL = "/api/api/api/task";
 
 export const taskApiSlice = apiReducer.injectEndpoints({
   endpoints: (builder) => ({
