@@ -33,7 +33,7 @@ export const App = () => {
           <Route path="/task/:id" element={<TaskDetailsPage />} />
           <Route path="/notification" element={<NotificationPage />} />
         </Route>
-        <Route path='login' element={<LoginPage />} />
+        <Route path='/login' element={<LoginPage />} />
       </Routes>
       <ToastContainer
         position="top-right"

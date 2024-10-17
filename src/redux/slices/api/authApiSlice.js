@@ -1,6 +1,6 @@
 import { apiReducer } from "../apiSlice.js";
 
-const AUTH_URL = "/api/api/user";
+const AUTH_URL = "/api/api/auth";
 
 export const authApiSlice = apiReducer.injectEndpoints({
   endpoints: (builder) => ({
