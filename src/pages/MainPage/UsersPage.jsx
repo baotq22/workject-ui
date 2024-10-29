@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { toast } from 'react-toastify';
 import { Box, Button, Table, TableBody, TableCell, TableHead, TableRow, Typography, TextField } from '@mui/material';
@@ -17,11 +17,20 @@ export const UsersPage = () => {
   const [openAction, setOpenAction] = useState(false);
   const [selected, setSelected] = useState(null);
   const [searchValue, setSearchValue] = useState('');
+  const [debouncedSearchValue, setDebouncedSearchValue] = useState('');
 
-  const { data, isLoading, refetch } = useGetTeamListQuery(searchValue);
+  const { data, isLoading, refetch } = useGetTeamListQuery(debouncedSearchValue);
   const [deleteUser] = useDeleteUserMutation();
   const [userAction] = useUserActionMutation();
   const getCurrentUserId = JSON.parse(localStorage.getItem("userInfo"))._id;
+
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      setDebouncedSearchValue(searchValue);
+    }, 500);
+
+    return () => clearTimeout(delayDebounce);
+  }, [searchValue]);
 
   if (isLoading) {
     return (
@@ -32,10 +41,12 @@ export const UsersPage = () => {
   }
 
   const handleSearch = (event) => {
-    setSearchValue(event.target.value)
+    setSearchValue(event.target.value);
   };
 
-  const filteredUsers = data?.filter(user => user.name.toLowerCase().includes(searchValue.toLowerCase()));
+  const filteredUsers = data?.filter(user =>
+    user.name.toLowerCase().includes(debouncedSearchValue.toLowerCase())
+  );
 
   const deleteHandler = async () => {
     try {
@@ -45,7 +56,7 @@ export const UsersPage = () => {
 
       toast.success("Delete Successfully!");
       setSelected(null);
-      
+
       setOpenDialog(false);
     } catch (error) {
       toast.error("Delete Failed!")
@@ -60,7 +71,7 @@ export const UsersPage = () => {
 
       refetch();
       toast.success("Operation Successfully!");
-      
+
       setOpenAction(false);
     } catch (error) {
       toast.error("Operation Failed!")

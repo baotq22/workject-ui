@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { GridView, FormatListBulleted, Add } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
 import { Box, Button, TextField } from '@mui/material';
 import { Search } from '@mui/icons-material';
 
-import { TASK_TYPE } from '../../utils';
 import { Loading, Title, Tabs, BoardView, TableView, AddTaskModal } from "../../components"
 import { useGetAllTaskQuery } from '../../redux/slices/api/taskApiSlice';
 import { useSelector } from 'react-redux';
@@ -25,11 +24,22 @@ export const TasksPage = () => {
   const [selected, setSelected] = useState(0);
   const [open, setOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [debouncedSearchValue, setDebouncedSearchValue] = useState('');
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchValue(searchValue);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchValue]);
 
   const { data, isLoading } = useGetAllTaskQuery({
     strQuery: status,
     isTrashed: "",
-    search: searchValue
+    search: debouncedSearchValue
   });
 
   return isLoading ? (
