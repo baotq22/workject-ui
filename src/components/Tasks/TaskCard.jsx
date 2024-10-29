@@ -16,7 +16,7 @@ export const TaskCard = ({ task }) => {
 
   return (
     <>
-      <Box className="w-full h-fit bg-white shadow-md p-4 rounded" sx={{ minHeight: "28rem" }}>
+      <Box className="w-full h-fit bg-white shadow-md p-4 rounded" sx={{ minHeight: "32rem" }}>
         <Box className="w-full flex justify-between">
           <Box className={clsx("flex flex-1 gap-1 items-center text-sm font-medium", PRIORITY_STYLES[task?.priority])}>
             <Typography className='text-lg'>{ICONS[task?.priority]}</Typography>
